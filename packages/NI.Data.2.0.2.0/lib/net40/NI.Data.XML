@@ -1,0 +1,1585 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NI.Data</name>
+    </assembly>
+    <members>
+        <member name="T:NI.Data.DalcExt">
+            <summary>
+            Extension methods for <see cref="T:NI.Data.IDalc"/> interface
+            </summary>
+        </member>
+        <member name="M:NI.Data.DalcExt.LoadRecord(NI.Data.IDalc,NI.Data.Query)">
+            <summary>
+            Load first record by query
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="q">query</param>
+            <returns>IDictionary with record data or null if no records matched</returns>
+        </member>
+        <member name="M:NI.Data.DalcExt.LoadValue(NI.Data.IDalc,NI.Data.Query)">
+            <summary>
+            Load first value of first record returned by query
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="q">query</param>
+            <returns>object or null if no records matched</returns>
+        </member>
+        <member name="M:NI.Data.DalcExt.LoadAllRecords(NI.Data.IDalc,NI.Data.Query)">
+            <summary>
+            Load all records data returned by query
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="q">query</param>
+            <returns>IDictionary[] with records data</returns>
+        </member>
+        <member name="M:NI.Data.DalcExt.LoadAllValues(NI.Data.IDalc,NI.Data.Query)">
+            <summary>
+            Load list of first values of records returned by query
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="q">query</param>
+            <returns>object[] with first values</returns>
+        </member>
+        <member name="M:NI.Data.DalcExt.Update(NI.Data.IDalc,NI.Data.Query,System.Collections.IDictionary)">
+            <summary>
+            Update records matched by query
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="q">query</param>
+            <param name="data">changeset dictionary (field name -> set value)</param>
+            <returns>number of updated records</returns>
+        </member>
+        <member name="M:NI.Data.DalcExt.Update(NI.Data.IDalc,NI.Data.Query,System.Object)">
+            <summary>
+            Update records matched by query
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="q">query</param>
+            <param name="dto">DTO object with changeset data (properties are used as fields)</param>
+            <returns>number of updated records</returns>
+        </member>
+        <member name="M:NI.Data.DalcExt.Insert(NI.Data.IDalc,System.String,System.Collections.IDictionary)">
+            <summary>
+            Insert new record
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="tableName">table name</param>
+            <param name="data">record data (field name -> set value)</param>
+        </member>
+        <member name="M:NI.Data.DalcExt.Insert(NI.Data.IDalc,System.String,System.Object)">
+            <summary>
+            Insert new record
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="tableName">table name</param>
+            <param name="data">DTO object with changeset data (properties are used as fields)</param>
+        </member>
+        <member name="M:NI.Data.DalcExt.RecordsCount(NI.Data.IDalc,NI.Data.Query)">
+            <summary>
+            Get records count matched by query
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="q"></param>
+            <returns>number of matched records</returns>
+        </member>
+        <member name="T:NI.Data.DataEventBroker">
+            <summary>
+            Generic implementation of data event broker used for data triggers.
+            </summary>
+        </member>
+        <member name="M:NI.Data.DataEventBroker.#ctor">
+            <summary>
+            Initializes a new instance of DataEventBroker
+            </summary>
+        </member>
+        <member name="M:NI.Data.DataEventBroker.#ctor(NI.Data.DbDalc)">
+            <summary>
+            Initializes a new instance of DataEventBroker and binds broker Publish method to all events
+            of specified <see cref="T:NI.Data.DbDalc"/>.
+            </summary>
+            <param name="dalc">DbDalc instance</param>
+        </member>
+        <member name="M:NI.Data.DataEventBroker.Publish(System.Object,System.EventArgs)">
+            <summary>
+            Publish specified event
+            </summary>
+            <param name="sender">event source</param>
+            <param name="eventArgs">event arguments</param>
+        </member>
+        <member name="M:NI.Data.DataEventBroker.Subscribe``1(System.EventHandler{``0})">
+            <summary>
+            Subscribe a handler for specified event type
+            </summary>
+            <typeparam name="T">event type to match</typeparam>
+            <param name="handler">event handler delegate</param>
+        </member>
+        <member name="M:NI.Data.DataEventBroker.Subscribe``1(System.Func{System.EventArgs,System.Boolean},System.EventHandler{``0})">
+            <summary>
+            Subscribe a handler for specified event type
+            </summary>
+            <typeparam name="T">event type to match</typeparam>
+            <param name="match">match condition delegate</param>
+            <param name="handler">event handler delegate</param>
+        </member>
+        <member name="M:NI.Data.DataEventBroker.Subscribe(System.Type,System.EventHandler{System.EventArgs})">
+            <summary>
+            Subscribe a handler for specified event type
+            </summary>
+            <param name="eventType">event type to match</param>
+            <param name="handler">event handler delegate</param>
+        </member>
+        <member name="M:NI.Data.DataEventBroker.Subscribe(System.Type,System.Func{System.EventArgs,System.Boolean},System.EventHandler{System.EventArgs})">
+            <summary>
+            Subscribe a handler for specified event type and match condition
+            </summary>
+            <param name="eventType">event type to match</param>
+            <param name="match">match condition delegate</param>
+            <param name="handler">event handler delegate</param>
+        </member>
+        <member name="M:NI.Data.DataEventBroker.Unsubscribe(System.Delegate)">
+            <summary>
+            Unsubscribes specified delegate from all events
+            </summary>
+            <remarks>This method unsubscribes specified delegate from ALL event types</remarks>
+            <param name="handler">delegate to unsubscribe</param>
+            <returns>true if item is successfully removed; otherwise, false.</returns>
+        </member>
+        <member name="E:NI.Data.DataEventBroker.Publishing">
+            <summary>
+            Occurs each time when event is published, but before executing subscribed handlers
+            </summary>
+        </member>
+        <member name="E:NI.Data.DataEventBroker.Published">
+            <summary>
+            Occurs each time when event is published, but after executing subscribed handlers
+            </summary>
+        </member>
+        <member name="T:NI.Data.DataRowDalcMapper">
+            <summary>
+            DALC-based DataRow mapper component that implements CRUD operations
+            </summary>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.#ctor">
+            <summary>
+            Initializes a new instance of DataRowDalcMapper without resolving its dependencies
+            </summary>
+            <remarks>
+            IDalc and CreateDataSet dependencies should be injected before calling any method of DataRowMapper
+            </remarks>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.#ctor(NI.Data.IDalc,System.Func{System.String,System.Data.DataSet})">
+            <summary>
+            Initializes a new instance of DataRowDalcMapper with IDalc and dataset factory components
+            </summary>
+            <param name="dalc">IDalc instance</param>
+            <param name="dsPrv">data set factory</param>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Create(System.String)">
+            <summary>
+            Create new DataRow
+            </summary>
+            <param name="tableName">data table name</param>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Insert(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Create new DataRow with specified data and insert it immediately.
+            </summary>
+            <param name="tableName">data table name</param>
+            <param name="data">column -> value data</param>
+            <returns>DataRow</returns>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Load(System.String,System.Object)">
+            <summary>
+            Load DataRow from specifed data source by single-value primary key
+            </summary>
+            <param name="tableName">data table name</param>
+            <param name="pk"></param>
+            <returns>DataRow or null</returns>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Load(System.String,System.Object[])">
+            <summary>
+            Load DataRow from specifed data source by primary key
+            </summary>
+            <param name="tableName">data table name</param>
+            <param name="pk">primary key values</param>
+            <returns>DataRow or null</returns>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Load(NI.Data.Query)">
+            <summary>
+            Load DataRow by query
+            </summary>
+            <param name="q">query</param>
+            <returns>DataRow or null if no records matched</returns>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.LoadAll(NI.Data.Query)">
+            <summary>
+            Load all records by query
+            </summary>
+            <param name="q">query</param>
+            <returns>DataTable filled with data that matched specified query</returns>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Delete(System.String,System.Object)">
+            <summary>
+            Delete record from data source by single-value primary key
+            </summary>
+            <param name="tableName">data table name</param>
+            <param name="pk">primary key value</param>
+            <returns>true if record deleted successfully</returns>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Delete(System.String,System.Object[])">
+            <summary>
+            Delete record from data source by primary key values
+            </summary>
+            <param name="tableName">data table name</param>
+            <param name="pk">primary key values</param>
+            <returns>true if record deleted successfully</returns>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Delete(NI.Data.Query)">
+            <summary>
+            Delete all records matched by query
+            </summary>
+            <param name="q">query</param>
+            <returns>number of deleted records</returns>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Delete(System.Data.DataRow)">
+            <summary>
+            Delete data row
+            </summary>
+            <param name="r">DataRow to delete</param>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Update(System.Data.DataRow)">
+            <summary>
+            Update data row in dats source
+            </summary>
+            <param name="r">DataRow to update</param>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Update(System.Data.DataTable)">
+            <summary>
+            Update all modified rows in DataTable
+            </summary>
+            <param name="tbl">DataTable with changed rows</param>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Update(System.String,System.Object,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Update record in data source by single-value primary key
+            </summary>
+            <param name="tableName">data table name</param>
+            <param name="pk">primary key value</param>
+            <param name="changeset">column name -> value</param>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Update(System.String,System.Object[],System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Update record in data source by primary key
+            </summary>
+            <param name="tableName">data source identifier</param>
+            <param name="pk">primary key values</param>
+            <param name="changeset">column name -> value</param>
+        </member>
+        <member name="M:NI.Data.DataRowDalcMapper.Update(NI.Data.Query,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Update records matched by query
+            </summary>
+            <param name="q">query for matching records to update</param>
+            <param name="changeset">changeset data</param>
+            <returns></returns>
+        </member>
+        <member name="P:NI.Data.DataRowDalcMapper.Dalc">
+            <summary>
+            Get or set DALC instance
+            </summary>
+        </member>
+        <member name="P:NI.Data.DataRowDalcMapper.CreateDataSet">
+            <summary>
+            Get or set function that creates DataSet for specified source name
+            </summary>
+        </member>
+        <member name="T:NI.Data.DataSetFactory">
+            <summary>
+            DataSetFactory creates DataSet with schema for specified table name.
+            </summary>
+            <remarks>This component is used by <see cref="T:NI.Data.DataRowDalcMapper"/>.</remarks>
+        </member>
+        <member name="M:NI.Data.IDataSetFactory.GetDataSet(System.String)">
+            <summary>
+            Get empty DataSet instance with schema for specified table name
+            </summary>
+            <param name="tableName">name of table</param>
+            <returns>DataSet with schema</returns>
+        </member>
+        <member name="M:NI.Data.DataSetFactory.#ctor">
+            <summary>
+            Initializes new instance of DataSetFactory (Schemas property should be set before calling this component)
+            </summary>
+        </member>
+        <member name="M:NI.Data.DataSetFactory.#ctor(NI.Data.DataSetFactory.SchemaDescriptor[])">
+            <summary>
+            Initializes new instance of DataSetFactory with specified list of known table schemas
+            </summary>
+            <param name="schemas"></param>
+        </member>
+        <member name="M:NI.Data.DataSetFactory.GetDataSet(System.String)">
+            <see cref="M:NI.Data.IDataSetFactory.GetDataSet(System.String)"/>
+        </member>
+        <member name="P:NI.Data.DataSetFactory.Schemas">
+            <summary>
+            Get or set list of SchemaDescriptor for this factory.
+            </summary>
+        </member>
+        <member name="T:NI.Data.DataSetDalc">
+            <summary>
+            Dataset-based (in-memory) DALC implementation.
+            </summary>
+            <sort>2</sort>
+        </member>
+        <member name="T:NI.Data.IDalc">
+            <summary>
+            Data access layer component interface
+            </summary>
+            <remarks>Represents set of methods for accessing and updating tabular data source.</remarks>
+        </member>
+        <member name="M:NI.Data.IDalc.ExecuteReader(NI.Data.Query,System.Action{System.Data.IDataReader})">
+            <summary>
+            Execute given query and passes data reader to handler
+            </summary>
+            <param name="q">query to execute</param>
+            <param name="handler">execution result callback</param>
+        </member>
+        <member name="M:NI.Data.IDalc.Load(NI.Data.Query,System.Data.DataSet)">
+            <summary>
+            Load data into dataset by query
+            </summary>
+            <param name="q">query to load</param>
+            <param name="ds">DataSet for results data</param>
+            <returns>DataTable loaded with query data</returns>
+        </member>
+        <member name="M:NI.Data.IDalc.Update(System.Data.DataTable)">
+            <summary>
+            Update data in datasource according to changes of specified DataTable
+            </summary>
+            <param name="t">DataTable with changed rows</param>
+        </member>
+        <member name="M:NI.Data.IDalc.Update(NI.Data.Query,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})">
+            <summary>
+            Update records in data source matched by query with specified changeset
+            </summary>
+            <param name="query">query</param>
+            <param name="data">Container with record changes</param>
+            <returns>number of updated records</returns>
+        </member>
+        <member name="M:NI.Data.IDalc.Insert(System.String,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})">
+            <summary>
+            Insert data from dictionary container to datasource
+            </summary>
+            <param name="tableName">Source name for data</param>
+            <param name="data">Container with record data</param>
+        </member>
+        <member name="M:NI.Data.IDalc.Delete(NI.Data.Query)">
+            <summary>
+            Delete data from dataset by query
+            </summary>
+            <param name="query">query that specifies data to delete</param>
+            <returns>number of deleted records</returns>
+        </member>
+        <member name="M:NI.Data.DataSetDalc.#ctor">
+            <summary>
+            Initialize new instance of DataSetDalc (property PersistedDS should be initialized before component usage)
+            </summary>
+        </member>
+        <member name="M:NI.Data.DataSetDalc.#ctor(System.Data.DataSet)">
+            <summary>
+            Initialize new instance of DataSetDalc with underlying DataSet
+            </summary>
+        </member>
+        <member name="M:NI.Data.DataSetDalc.Load(NI.Data.Query,System.Data.DataSet)">
+            <see cref="M:NI.Data.IDalc.Load(NI.Data.Query,System.Data.DataSet)"/>
+        </member>
+        <member name="M:NI.Data.DataSetDalc.Update(System.Data.DataTable)">
+            <see cref="M:NI.Data.IDalc.Update(System.Data.DataTable)"/>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DataSetDalc.Update(NI.Data.Query,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})" -->
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DataSetDalc.Insert(System.String,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})" -->
+        <member name="M:NI.Data.DataSetDalc.Delete(NI.Data.Query)">
+            <see cref="M:NI.Data.IDalc.Delete(NI.Data.Query)"/>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DataSetDalc.ExecuteReader(NI.Data.Query,System.Action{System.Data.IDataReader})" -->
+        <member name="P:NI.Data.DataSetDalc.PersistedDS">
+            <summary>
+            Get or set underlying DataSet with persisted data
+            </summary>
+        </member>
+        <member name="T:NI.Data.SqlBuilder">
+            <summary>
+            Sql expression builder (default implementation).
+            </summary>
+        </member>
+        <member name="T:NI.Data.ISqlBuilder">
+            <summary>
+            Represents abstract SQL builder interface.
+            </summary>
+        </member>
+        <member name="M:NI.Data.ISqlBuilder.BuildValue(NI.Data.IQueryValue)">
+            <summary>
+            Build string representation of specified IQueryValue
+            </summary>
+        </member>
+        <member name="M:NI.Data.ISqlBuilder.BuildSort(NI.Data.QSort)">
+            <summary>
+            Build string representation of specified sort field
+            </summary>
+        </member>
+        <member name="M:NI.Data.ISqlBuilder.BuildExpression(NI.Data.QueryNode)">
+            <summary>
+            Build string representation of specified QueryNode (condition)
+            </summary>
+        </member>
+        <member name="T:NI.Data.DbCommandEventArgs">
+            <summary>
+            Database command event arguments.
+            </summary>
+        </member>
+        <member name="P:NI.Data.DbCommandEventArgs.TableName">
+            <summary>
+            Get or set affected source name.
+            </summary>
+        </member>
+        <member name="P:NI.Data.DbCommandEventArgs.CommandType">
+            <summary>
+            Get or set DB command type.
+            </summary>
+        </member>
+        <member name="P:NI.Data.DbCommandEventArgs.Command">
+            <summary>
+            Get or set event argument 
+            </summary>
+        </member>
+        <member name="T:NI.Data.DbCommandExecutingEventArgs">
+            <summary>
+            Represents database command executing event data
+            </summary>
+        </member>
+        <member name="T:NI.Data.DbCommandExecutedEventArgs">
+            <summary>
+            Represents database command executed event data
+            </summary>
+        </member>
+        <member name="T:NI.Data.DbCommandGenerator">
+            <summary>
+            Database Command Generator that supports data views
+            </summary>
+        </member>
+        <member name="T:NI.Data.IDbCommandGenerator">
+            <summary>
+            Represents set of methods for constructing IDbCommand with appropriate SQL command
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbCommandGenerator.ComposeSelect(NI.Data.Query)">
+            <summary>
+            Compose IDbCommand instance with SELECT by query
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbCommandGenerator.ComposeAdapterUpdateCommands(System.Data.IDbDataAdapter,System.Data.DataTable)">
+            <summary>
+            Compose DB adapter update commands (insert,update,delete) for specified DataTable
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbCommandGenerator.ComposeInsert(System.String,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})">
+            <summary>
+            Compose IDbCommand with SQL insert for specified table name and column name -> value map
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbCommandGenerator.ComposeDelete(NI.Data.Query)">
+            <summary>
+            Compose IDbCommand with SQL delete by query 
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbCommandGenerator.ComposeUpdate(NI.Data.Query,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})">
+            <summary>
+            Compose IDbCommand with SQL update by query and specified column name -> value map
+            </summary>
+        </member>
+        <member name="M:NI.Data.DbCommandGenerator.#ctor(NI.Data.IDbProviderFactory)">
+            <summary>
+            Initializes a new instance of the DbCommandGenerator class with specified IDbDalcFactory component.
+            </summary>
+            <param name="dbFactory">IDbDalcFactory implementation</param>
+        </member>
+        <member name="M:NI.Data.DbCommandGenerator.#ctor(NI.Data.IDbProviderFactory,NI.Data.IDbDalcView[])">
+            <summary>
+            Initializes a new instance of the DbCommandGenerator class with specified IDbDalcFactory component and list of data views.
+            </summary>
+            <param name="dbFactory">IDbDalcFactory implementation</param>
+            <param name="views">list of data views</param>
+        </member>
+        <member name="M:NI.Data.DbCommandGenerator.ComposeSelect(NI.Data.Query)">
+            <see cref="M:NI.Data.IDbCommandGenerator.ComposeSelect(NI.Data.Query)"/>
+        </member>
+        <member name="M:NI.Data.DbCommandGenerator.ComposeDelete(NI.Data.Query)">
+            <see cref="M:NI.Data.IDbCommandGenerator.ComposeDelete(NI.Data.Query)"/>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DbCommandGenerator.ComposeUpdate(NI.Data.Query,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})" -->
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DbCommandGenerator.ComposeInsert(System.String,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})" -->
+        <member name="M:NI.Data.DbCommandGenerator.ComposeAdapterUpdateCommands(System.Data.IDbDataAdapter,System.Data.DataTable)">
+            <see cref="M:NI.Data.IDbCommandGenerator.ComposeAdapterUpdateCommands(System.Data.IDbDataAdapter,System.Data.DataTable)"/>
+        </member>
+        <member name="P:NI.Data.DbCommandGenerator.DbFactory">
+            <summary>
+            DB Factory instance
+            </summary>
+        </member>
+        <member name="P:NI.Data.DbCommandGenerator.Views">
+            <summary>
+            Dalc views
+            </summary>
+        </member>
+        <member name="T:NI.Data.IDbProviderFactory">
+            <summary>
+            Factory for creating database-specific ADO.NET implementations required by DALC components
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbProviderFactory.CreateDataAdapter(System.EventHandler{System.Data.Common.RowUpdatingEventArgs},System.EventHandler{System.Data.Common.RowUpdatedEventArgs})">
+            <summary>
+            Create data adapter and bind row updating/updated event handlers
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbProviderFactory.CreateCommand">
+            <summary>
+            Create command 
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbProviderFactory.CreateConnection">
+            <summary>
+            Create connection 
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbProviderFactory.AddCommandParameter(System.Data.IDbCommand,System.Object)">
+            <summary>
+            Add new constant parameter
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbProviderFactory.AddCommandParameter(System.Data.IDbCommand,System.Data.DataColumn,System.Data.DataRowVersion)">
+            <summary>
+            Add new data column parameter
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbProviderFactory.CreateSqlBuilder(System.Data.IDbCommand)">
+            <summary>
+            Creare SQL builder
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbProviderFactory.GetInsertId(System.Data.IDbConnection)">
+            <summary>
+            Get ID of last inserted record
+            </summary>
+        </member>
+        <member name="T:NI.Data.DbDalc">
+            <summary>
+            Data Access Layer Component based on ADO.NET database provider
+            </summary>
+            <sort>1</sort>
+            <assemblyLink>https://code.google.com/p/nicnet/source/browse/src/NI.Data?name=nicnet2</assemblyLink>
+        </member>
+        <member name="T:NI.Data.ISqlDalc">
+            <summary>
+            Represents SQL-specified DALC component
+            </summary>
+        </member>
+        <member name="M:NI.Data.ISqlDalc.ExecuteNonQuery(System.String)">
+            <summary>
+            Execute SQL command
+            </summary>
+            <param name="sqlText">SQL command text</param>
+            <returns>number of affected records</returns>
+        </member>
+        <member name="M:NI.Data.ISqlDalc.ExecuteReader(System.String,System.Action{System.Data.IDataReader})">
+            <summary>
+            Execute given raw SQL and return data reader
+            </summary>
+        </member>
+        <member name="M:NI.Data.ISqlDalc.Load(System.String,System.Data.DataSet)">
+            <summary>
+            Execute custom SQL command and store result in specified dataset
+            </summary>
+        </member>
+        <member name="M:NI.Data.DbDalc.#ctor(NI.Data.IDbProviderFactory,System.Data.IDbConnection)">
+            <summary>
+            Initializes a new instance of the DbDalc with specified factory and connection.
+            </summary>
+        </member>
+        <member name="M:NI.Data.DbDalc.#ctor(NI.Data.IDbProviderFactory,System.String)">
+            <summary>
+            Initializes a new instance of the DbDalc for specified factory and connection string.
+            </summary>
+        </member>
+        <member name="M:NI.Data.DbDalc.#ctor(NI.Data.IDbProviderFactory,System.Data.IDbConnection,NI.Data.IDbCommandGenerator)">
+            <summary>
+            Initializes a new instance of the DbDalc with specified DALC factory, DB connection and command generator
+            </summary>
+        </member>
+        <member name="M:NI.Data.DbDalc.#ctor(NI.Data.IDbProviderFactory,System.Data.IDbConnection,NI.Data.IDbDalcView[])">
+            <summary>
+            Initializes a new instance of the DbDalc with specified DALC factory, DB connection and list of DALC data views
+            </summary>
+        </member>
+        <member name="M:NI.Data.DbDalc.Load(NI.Data.Query,System.Data.DataSet)">
+            <see cref="M:NI.Data.IDalc.Load(NI.Data.Query,System.Data.DataSet)"/>
+        </member>
+        <member name="M:NI.Data.DbDalc.Delete(NI.Data.Query)">
+            <see cref="M:NI.Data.IDalc.Delete(NI.Data.Query)"/>
+        </member>
+        <member name="M:NI.Data.DbDalc.Update(System.Data.DataTable)">
+            <see cref="M:NI.Data.IDalc.Update(System.Data.DataTable)"/>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DbDalc.Update(NI.Data.Query,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})" -->
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DbDalc.Insert(System.String,System.Collections.Generic.IDictionary{System.String,NI.Data.IQueryValue})" -->
+        <member name="M:NI.Data.DbDalc.ExecuteNonQuery(System.String)">
+            <see cref="M:NI.Data.ISqlDalc.ExecuteNonQuery(System.String)"/>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DbDalc.ExecuteReader(System.String,System.Action{System.Data.IDataReader})" -->
+        <!-- Badly formed XML comment ignored for member "M:NI.Data.DbDalc.ExecuteReader(NI.Data.Query,System.Action{System.Data.IDataReader})" -->
+        <member name="M:NI.Data.DbDalc.Load(System.String,System.Data.DataSet)">
+            <see cref="M:NI.Data.ISqlDalc.Load(System.String,System.Data.DataSet)"/>
+        </member>
+        <member name="M:NI.Data.DbDalc.ExecuteInternal(System.Data.IDbCommand,System.String,System.Data.StatementType)">
+            <summary>
+            Execute SQL command
+            </summary>
+        </member>
+        <member name="P:NI.Data.DbDalc.CommandGenerator">
+            <summary>
+            Get or set database commands generator
+            </summary>
+        </member>
+        <member name="P:NI.Data.DbDalc.DbFactory">
+            <summary>
+            Get or set adapter wrapper factory component
+            </summary>
+        </member>
+        <member name="P:NI.Data.DbDalc.Connection">
+            <summary>
+            Get or set database connection
+            </summary>
+        </member>
+        <member name="E:NI.Data.DbDalc.DbCommandExecuting">
+            <summary>
+            Occurs when Dalc executes DB command, but before a command is executed against the data source.
+            </summary>
+        </member>
+        <member name="E:NI.Data.DbDalc.DbCommandExecuted">
+            <summary>
+            Occurs when Dalc executes DB command, but after a command is executed against the data source.
+            </summary>
+        </member>
+        <member name="E:NI.Data.DbDalc.RowUpdating">
+            <summary>
+            Occurs during Update before a command is executed against the data source.
+            </summary>
+        </member>
+        <member name="E:NI.Data.DbDalc.RowUpdated">
+            <summary>
+            Occurs during Update after a command is executed against the data source.
+            </summary>
+        </member>
+        <member name="T:NI.Data.Logger">
+            <summary>
+            Internal NI.Data assembly logger
+            </summary>
+            <remarks>Default handlers use Trace and Debug classes</remarks>
+        </member>
+        <member name="T:NI.Data.Permissions.IQueryRule">
+            <summary>
+            Represents query rule used by <see cref="T:NI.Data.Permissions.DbPermissionCommandGenerator"/>
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Inserting">
+            <summary>
+            Occurs before row insert.
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Inserted">
+            <summary>
+            Occurs after row insert.
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Updating">
+            <summary>
+            Occurs before row update.
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Updated">
+            <summary>
+            Occurs after row update
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Deleting">
+            <summary>
+            Occurs before row delete
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Deleted">
+            <summary>
+            Occurs after row delete
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Saving">
+            <summary>
+            Inserting or Updating
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Saved">
+            <summary>
+            Inserted or Updated
+            </summary>
+        </member>
+        <member name="F:NI.Data.Triggers.DataRowActionType.Any">
+            <summary>
+            Any data row action 
+            </summary>
+        </member>
+        <member name="T:NI.Data.Triggers.DataRowTrigger">
+            <summary>
+            Generic DataRow trigger that consumes data events and triggers an action on certain conditions.
+            </summary>
+        </member>
+        <member name="M:NI.Data.Triggers.DataRowTrigger.#ctor(System.Action{NI.Data.Triggers.DataRowTriggerEventArgs})">
+            <summary>
+            Initializes new instance of DataRowTrigger with specified handler
+            </summary>
+            <param name="handler">handler delegate</param>
+        </member>
+        <member name="M:NI.Data.Triggers.DataRowTrigger.#ctor(System.Action{NI.Data.Triggers.DataRowTriggerEventArgs},NI.Data.DataEventBroker)">
+            <summary>
+            Initializes new instance of DataRowTrigger with specified handler
+            </summary>
+            <param name="handler">handler delegate</param>
+            <param name="broker">data events broker</param>
+        </member>
+        <member name="M:NI.Data.Triggers.DataRowTrigger.#ctor(NI.Data.Triggers.DataRowActionType,System.String,System.Action{NI.Data.Triggers.DataRowTriggerEventArgs})">
+            <summary>
+            Initializes new instance of DataRowTrigger with specified row action, table name and handler
+            </summary>
+            <param name="rowAction">row action flags</param>
+            <param name="tableName">table name to match</param>
+            <param name="handler">handler delegate</param>
+        </member>
+        <member name="M:NI.Data.Triggers.DataRowTrigger.#ctor(NI.Data.Triggers.DataRowActionType,System.String,System.Action{NI.Data.Triggers.DataRowTriggerEventArgs},NI.Data.DataEventBroker)">
+            <summary>
+            Initializes new instance of DataRowTrigger with specified row action, table name, handler and subscribes it to appropriate data events.
+            </summary>
+            <param name="rowAction">row action flags</param>
+            <param name="tableName">table name to match</param>
+            <param name="handler">handler delegate</param>
+            <param name="broker">data events broker</param>
+        </member>
+        <member name="P:NI.Data.Triggers.DataRowTrigger.TableName">
+            <summary>
+            Get or set table name that should be matched by this trigger.
+            </summary>
+        </member>
+        <member name="P:NI.Data.Triggers.DataRowTrigger.Action">
+            <summary>
+            Get or set flags that determine what DataRow actions trigger should match. 
+            </summary>
+        </member>
+        <member name="P:NI.Data.Triggers.DataRowTrigger.Handler">
+            <summary>
+            Get or set trigger handler delegate
+            </summary>
+        </member>
+        <member name="T:NI.Data.DbDalcView">
+            <summary>
+            Data view info.
+            </summary>
+        </member>
+        <member name="T:NI.Data.IDbDalcView">
+            <summary>
+            Represents DALC data view methods and properties
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbDalcView.IsMatchTable(NI.Data.QTable)">
+            <summary>
+            Determines whether this dataview matches given table
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbDalcView.ComposeSelect(NI.Data.Query,NI.Data.IDbSqlBuilder)">
+            <summary>
+            Compose dataview SQL select text by specified query
+            </summary>
+            <param name="q">query to this dataview</param>
+            <param name="sqlBuilder">SQL builder</param>
+            <returns>dataview SQL select text</returns>
+        </member>
+        <member name="M:NI.Data.DbDalcView.FormatSelectSql(NI.Data.DbDalcView.ViewContext)">
+            <summary>
+            Performs default SQL template parsing that can handle simple code snippets
+            </summary>
+        </member>
+        <member name="T:NI.Data.DbSqlBuilder">
+            <summary>
+            Database sql builder (default implementation).
+            </summary>
+        </member>
+        <member name="T:NI.Data.IDbSqlBuilder">
+            <summary>
+            Represents database-specific SQL builder interface.
+            </summary>
+            <inherit>NI.Data.ISqlBuilder</inherit>
+        </member>
+        <member name="M:NI.Data.IDbSqlBuilder.BuildSelect(NI.Data.Query)">
+            <summary>
+            Build SQL select command text by query
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbSqlBuilder.BuildSort(NI.Data.Query)">
+            <summary>
+            Build ORDER BY part of SQL command by query
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbSqlBuilder.BuildFields(NI.Data.Query)">
+            <summary>
+            Build SQL list of fields to select by
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbSqlBuilder.BuildCommandParameter(System.Object)">
+            <summary>
+            Build command parameter by value and return SQL placeholder text
+            </summary>
+        </member>
+        <member name="M:NI.Data.IDbSqlBuilder.BuildCommandParameter(System.Data.DataColumn,System.Data.DataRowVersion)">
+            <summary>
+            Build command parameter by DataColumn and return SQL placeholder text
+            </summary>
+        </member>
+        <member name="T:NI.Data.DbTypeResolver">
+            <summary>
+            DbType enumeration member resolver.
+            </summary>
+        </member>
+        <member name="M:NI.Data.DbTypeResolver.Resolve(System.Type)">
+            <summary>
+            Resolve DbType by System.Type
+            </summary>
+            <param name="type">.net type</param>
+            <returns>DB type</returns>
+        </member>
+        <member name="T:NI.Data.IQueryValue">
+            <summary>
+            Marker interface for query value object
+            </summary>
+        </member>
+        <member name="T:NI.Data.IObjectDataRowMapper">
+            <summary>
+            Represents set of methods for two-directional mapping between DataRow and object
+            </summary>
+        </member>
+        <member name="M:NI.Data.IObjectDataRowMapper.MapTo(System.Data.DataRow,System.Object)">
+            <summary>
+            Map DataRow values to specified object
+            </summary>
+            <param name="r">source DataRow</param>
+            <param name="o">target object</param>
+        </member>
+        <member name="M:NI.Data.IObjectDataRowMapper.MapFrom(System.Object,System.Data.DataRow,System.Boolean)">
+            <summary>
+            Map object data to DataRow
+            </summary>
+            <param name="o">source object</param>
+            <param name="r">target DataRow</param>
+            <param name="skipPk">skip mapping for PK values</param>
+        </member>
+        <member name="M:NI.Data.IObjectDataRowMapper.GetFieldValue(System.Object,System.Data.DataColumn)">
+            <summary>
+            Get object's value by specified DataColumn
+            </summary>
+            <param name="o">object</param>
+            <param name="c">DataColumn</param>
+            <returns>value which corresponds to specified DataColumn</returns>
+        </member>
+        <member name="T:NI.Data.Linq.DalcRecord">
+            <summary>
+            Linq-friendly dalc record structure.
+            </summary>
+        </member>
+        <member name="T:NI.Data.Linq.DalcValue">
+            <summary>
+            Linq-friendly DALC value boxing structure.
+            </summary>
+        </member>
+        <member name="T:NI.Data.ObjectDalcMapper`1">
+            <summary>
+            Data transfer objects mapper that uses DataRowDalcMapper for storing object data
+            </summary>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.#ctor(NI.Data.DataRowDalcMapper,System.String)">
+            <summary>
+            Initializes a new instance of ObjectDalcMapper 
+            </summary>
+            <param name="dbMgr">DataRowManager</param>
+            <param name="tableName">data table name</param>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.#ctor(NI.Data.DataRowDalcMapper,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of ObjectDalcMapper
+            </summary>
+            <param name="dbMgr">DataRowManager</param>
+            <param name="tableName">data table name</param>
+            <param name="colNameToProperty">column name -> object property map</param>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.#ctor(NI.Data.DataRowDalcMapper,System.String,NI.Data.IObjectDataRowMapper)">
+            <summary>
+            Initializes a new instance of ObjectDalcMapper with custom object properties mapper
+            </summary>
+            <param name="dbMgr"></param>
+            <param name="tableName"></param>
+            <param name="customObjectMapper"></param>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.Load(System.Object[])">
+            <summary>
+            Load object by primary key 
+            </summary>
+            <param name="pk"></param>
+            <returns>persisted object or null</returns>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.Load(NI.Data.Query)">
+            <summary>
+            Load first object matched by query
+            </summary>
+            <param name="q">query</param>
+            <returns>matched object with data or null</returns>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.LoadAll(NI.Data.Query)">
+            <summary>
+            Load all objects matched by query
+            </summary>
+            <param name="q">query</param>
+            <returns>list of matched objects</returns>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.Add(`0)">
+            <summary>
+            Add a new record associated with object
+            </summary>
+            <param name="o">object to add</param>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.Update(`0,System.Boolean)">
+            <summary>
+            Update record associated with object 
+            </summary>
+            <param name="o">object to update</param>
+            <param name="createNew">create a new record if no associated records with specified object</param>
+        </member>
+        <member name="M:NI.Data.ObjectDalcMapper`1.Delete(`0)">
+            <summary>
+            Delete a record associated with object
+            </summary>
+            <param name="o"></param>
+        </member>
+        <member name="T:NI.Data.EvalQueryCondition">
+            <summary>
+            Object query condition evaluator. Evaluates IQueryNode condition in some 'object' context.
+            </summary>
+            <remarks>This resolver does not support all possible IQueryNode tree structures.</remarks>
+        </member>
+        <member name="P:NI.Data.EvalQueryCondition.QFieldResolver">
+            <summary>
+            Field value resolver (required)
+            </summary>
+        </member>
+        <member name="P:NI.Data.EvalQueryCondition.QConstResolver">
+            <summary>
+            Const value resolver (optional)
+            </summary>
+        </member>
+        <member name="T:NI.Data.Permissions.QueryRule">
+            <summary>
+            Generic implementation of IQueryRule interface
+            </summary>
+        </member>
+        <member name="T:NI.Data.Permissions.PermissionContext">
+            <summary>
+            Dalc permission context
+            </summary>
+        </member>
+        <member name="T:NI.Data.Permissions.DbPermissionCommandGenerator">
+            <summary>
+            Extends DbCommandGenerator with permission rules
+            </summary>
+        </member>
+        <member name="T:NI.Data.PropertyDataRowMapper">
+            <summary>
+            Maps object properties to DataRow column values 
+            </summary>
+        </member>
+        <member name="T:NI.Data.QVar">
+            <summary>
+            Represents query variable
+            </summary>
+            <remarks>All query variables should be set before processing the query. 
+            Accessing undefined variable will cause InvalidOperationException.</remarks>
+        </member>
+        <member name="T:NI.Data.QConst">
+            <summary>
+            Represents query constant value
+            </summary>
+        </member>
+        <member name="M:NI.Data.QConst.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the QConst with specified value object
+            </summary>
+            <param name="value">object of constant value</param>
+        </member>
+        <member name="M:NI.Data.QConst.#ctor(System.Object,System.TypeCode)">
+            <summary>
+            Initializes a new instance of the QConst with specified value object and explicit type
+            </summary>
+            <param name="value">object of constant value</param>
+        </member>
+        <member name="P:NI.Data.QConst.Value">
+            <summary>
+            Get constant value object
+            </summary>
+        </member>
+        <member name="P:NI.Data.QConst.Type">
+            <summary>
+            Get TypeCode of constant value
+            </summary>
+        </member>
+        <member name="M:NI.Data.QVar.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the QVar with specified variable name
+            </summary>
+            <param name="varName">variable name</param>
+        </member>
+        <member name="M:NI.Data.QVar.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the QVar with specified variable name and format
+            </summary>
+            <param name="varName">variable name</param>
+            <param name="format">the string format applied on setting of the variable</param>
+        </member>
+        <member name="M:NI.Data.QVar.Set(System.Object)">
+            <summary>
+            Assigns a value for this variable
+            </summary>
+            <remarks>Assigned QVar can be used as QConst</remarks>
+            <param name="varValue">variable value</param>
+        </member>
+        <member name="M:NI.Data.QVar.Unset">
+            <summary>
+            Makes this variable undefined. 
+            </summary>
+        </member>
+        <member name="P:NI.Data.QVar.Name">
+            <summary>
+            Get variable name
+            </summary>
+        </member>
+        <member name="P:NI.Data.QVar.Value">
+            <summary>
+            Get actual value represented by this variable
+            </summary>
+        </member>
+        <member name="P:NI.Data.QVar.Format">
+            <summary>
+            Get format for variable value (null if formatting is not needed)
+            </summary>
+        </member>
+        <member name="T:NI.Data.QueryNode">
+            <summary>
+            Represents abstract query node that contains child nodes.
+            </summary>
+        </member>
+        <member name="M:NI.Data.QueryNode.op_BitwiseOr(NI.Data.QueryNode,NI.Data.QueryNode)">
+            <summary>
+            OR operator
+            </summary>
+        </member>
+        <member name="M:NI.Data.QueryNode.op_BitwiseAnd(NI.Data.QueryNode,NI.Data.QueryNode)">
+            <summary>
+            AND operator
+            </summary>
+        </member>
+        <member name="P:NI.Data.QueryRawSqlNode.Nodes">
+            <summary>
+            Nodes collection
+            </summary>
+        </member>
+        <member name="T:NI.Data.QTable">
+            <summary>
+            Represents query table information
+            </summary>
+        </member>
+        <member name="M:NI.Data.QTable.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the QSource with the specified source name
+            </summary>
+            <param name="tableName">source name string</param>
+        </member>
+        <member name="M:NI.Data.QTable.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the QSource with the specified source name and alias
+            </summary>
+            <param name="tableName">source name string</param>
+            <param name="alias">alias string</param>
+        </member>
+        <member name="M:NI.Data.QTable.ToString">
+            <summary>
+            Returns a string representation of this QSource
+            </summary>
+            <returns>string that represents QSource in [name].[alias] format</returns>
+        </member>
+        <member name="P:NI.Data.QTable.Name">
+            <summary>
+            Get source name (string identifier)
+            </summary>
+        </member>
+        <member name="P:NI.Data.QTable.Alias">
+            <summary>
+            Get source name alias used in query nodes
+            </summary>
+        </member>
+        <member name="T:NI.Data.QField">
+            <summary>
+            Represents query field value
+            </summary>
+        </member>
+        <member name="M:NI.Data.QField.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of QField with specified field name
+            </summary>
+            <remarks>If field name contains expression specific characters (like '(',')','*') it is treated as calculated field expression</remarks>
+            <param name="fld">field name</param>
+        </member>
+        <member name="M:NI.Data.QField.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of QField with specified field name and expression
+            </summary>
+            <param name="fld">field name</param>
+            <param name="expression">expression string</param>
+        </member>
+        <member name="M:NI.Data.QField.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of QField with specified field prefix, name and expression
+            </summary>
+            <param name="prefix">field prefix</param>
+            <param name="fld">field name</param>
+            <param name="expression">expression string</param>
+        </member>
+        <member name="M:NI.Data.QField.ToString">
+            <summary>
+            Returns a string representation of QField
+            </summary>
+            <returns>string in [prefix].[field name] format</returns>
+        </member>
+        <member name="P:NI.Data.QField.Name">
+            <summary>
+            Get field name
+            </summary>
+        </member>
+        <member name="P:NI.Data.QField.Prefix">
+            <summary>
+            Get field prefix (usually matches query source name alias)
+            </summary>
+        </member>
+        <member name="P:NI.Data.QField.Expression">
+            <summary>
+            Get optional expression string that represents calculated field
+            </summary>
+        </member>
+        <member name="T:NI.Data.QRawSql">
+            <summary>
+            Represents raw SQL query value
+            </summary>
+        </member>
+        <member name="M:NI.Data.QRawSql.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the QRawSql with specfield SQL text
+            </summary>
+            <param name="sqlText"></param>
+        </member>
+        <member name="P:NI.Data.QRawSql.SqlText">
+            <summary>
+            Get SQL text
+            </summary>
+        </member>
+        <member name="T:NI.Data.QSort">
+            <summary>
+            Represents query sort option 
+            </summary>
+        </member>
+        <member name="M:NI.Data.QSort.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the QSoft with specified field name
+            </summary>
+            <param name="sortFld">field name with optional direction suffix like "id desc"</param>
+        </member>
+        <member name="M:NI.Data.QSort.#ctor(System.String,System.ComponentModel.ListSortDirection)">
+            <summary>
+            Initializes a new instance of the QSoft with specified field name and sort direction
+            </summary>
+            <param name="fld">field name</param>
+            <param name="direction">sort direction</param>
+        </member>
+        <member name="M:NI.Data.QSort.ToString">
+            <summary>
+            Returns a string representation of QSort
+            </summary>
+            <returns>string in [field name] [asc|desc] format</returns>
+        </member>
+        <member name="P:NI.Data.QSort.Field">
+            <summary>
+            Get QField sort target
+            </summary>
+        </member>
+        <member name="P:NI.Data.QSort.SortDirection">
+            <summary>
+            Get sort direction (asc or desc)
+            </summary>
+        </member>
+        <member name="T:NI.Data.Query">
+            <summary>
+            Represents DALC data query
+            </summary>
+        </member>
+        <member name="M:NI.Data.Query.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Query with specified table name
+            </summary>
+            <param name="tableName">target table name</param>
+        </member>
+        <member name="M:NI.Data.Query.#ctor(NI.Data.QTable)">
+            <summary>
+            Initializes a new instance of the Query with specified table
+            </summary>
+            <param name="table">target table</param>
+        </member>
+        <member name="M:NI.Data.Query.#ctor(System.String,NI.Data.QueryNode)">
+            <summary>
+            Initializes a new instance of the Query with specified table name and condition node
+            </summary>
+            <param name="tableName">target table name</param>
+            <param name="condition">condition represented by QueryNode</param>
+        </member>
+        <member name="M:NI.Data.Query.#ctor(NI.Data.QTable,NI.Data.QueryNode)">
+            <summary>
+            Initializes a new instance of the Query with specified table and condition
+            </summary>
+            <param name="table">target table</param>
+            <param name="condition">condition represented by QueryNode</param>
+        </member>
+        <member name="M:NI.Data.Query.#ctor(NI.Data.Query)">
+            <summary>
+            Initializes a new instance of the Query with identical options of specified query
+            </summary>
+            <param name="q">query with options to copy</param>
+        </member>
+        <member name="M:NI.Data.Query.SetSort(System.String[])">
+            <summary>
+            Set query sort by specified fields
+            </summary>
+            <param name="sortFields">list of sort fields</param>
+        </member>
+        <member name="M:NI.Data.Query.SetSort(NI.Data.QSort[])">
+            <summary>
+            Set query sort by specified list of QSort
+            </summary>
+            <param name="sortFields"></param>
+        </member>
+        <member name="M:NI.Data.Query.SetFields(System.String[])">
+            <summary>
+            Set query fields by specified list of field names
+            </summary>
+            <param name="fields">list of field names</param>
+        </member>
+        <member name="M:NI.Data.Query.SetFields(NI.Data.QField[])">
+            <summary>
+            Set query fields by specified list of QField
+            </summary>
+            <param name="fields"></param>
+        </member>
+        <member name="M:NI.Data.Query.ToString">
+            <summary>
+            Returns a string that represents current query in relex format
+            </summary>
+            <returns>relex string</returns>
+        </member>
+        <member name="P:NI.Data.Query.Condition">
+            <summary>
+            Query condition represented by QueryNode. Can be null.
+            </summary>
+        </member>
+        <member name="P:NI.Data.Query.Nodes">
+            <summary>
+            List of child nodes
+            </summary>
+        </member>
+        <member name="P:NI.Data.Query.Sort">
+            <summary>
+            List of sort fields. Can be null.
+            </summary>
+        </member>
+        <member name="P:NI.Data.Query.Fields">
+            <summary>
+            List of fields to load. Null means all available fields.
+            </summary>
+        </member>
+        <member name="P:NI.Data.Query.StartRecord">
+            <summary>
+            Get or set starting record to load
+            </summary>
+        </member>
+        <member name="P:NI.Data.Query.RecordCount">
+            <summary>
+            Get or set max records count to load
+            </summary>
+        </member>
+        <member name="P:NI.Data.Query.Table">
+            <summary>
+            Get or set target source name of this query
+            </summary>
+        </member>
+        <member name="P:NI.Data.Query.ExtendedProperties">
+            <summary>
+            Get or set query extended properties. 
+            </summary>
+            <remarks>Extended properties may be used by concrete implementations of DALC</remarks>
+        </member>
+        <member name="T:NI.Data.QueryGroupNode">
+            <summary>
+            Represents group of nodes combined with logical OR/AND operator
+            </summary>
+        </member>
+        <member name="M:NI.Data.QueryGroupNode.#ctor(NI.Data.QueryGroupNodeType)">
+            <summary>
+            Initializes a new instance of the QueryGroupNode with specified logical operator
+            </summary>
+            <param name="type">group logical operator (<see cref="T:NI.Data.QueryGroupNodeType"/>)</param>
+        </member>
+        <member name="M:NI.Data.QueryGroupNode.#ctor(NI.Data.QueryGroupNode)">
+            <summary>
+            Initializes a new instance of the QueryGroupNode that copies specified QueryGroupNode
+            </summary>
+            <param name="likeGroup">QueryGroupNode to copy from</param>
+        </member>
+        <member name="M:NI.Data.QueryGroupNode.op_BitwiseOr(NI.Data.QueryGroupNode,NI.Data.QueryNode)">
+            <summary>
+            OR operator
+            </summary>
+        </member>
+        <member name="M:NI.Data.QueryGroupNode.op_BitwiseAnd(NI.Data.QueryGroupNode,NI.Data.QueryNode)">
+            <summary>
+            AND operator
+            </summary>
+        </member>
+        <member name="M:NI.Data.QueryGroupNode.And(NI.Data.QueryNode[])">
+            <summary>
+            Compose AND group node with specified child nodes
+            </summary>
+            <param name="nodes">child nodes</param>
+            <returns>QueryGroupNode of AND type</returns>
+        </member>
+        <member name="M:NI.Data.QueryGroupNode.Or(NI.Data.QueryNode[])">
+            <summary>
+            Compose OR group node with specified child nodes
+            </summary>
+            <param name="nodes">child nodes</param>
+            <returns>QueryGroupNode of OR type</returns>
+        </member>
+        <member name="P:NI.Data.QueryGroupNode.Nodes">
+            <summary>
+            List of group child nodes
+            </summary>
+        </member>
+        <member name="P:NI.Data.QueryGroupNode.GroupType">
+            <summary>
+            Logical operator type (<see cref="T:NI.Data.QueryGroupNodeType"/>)
+            </summary>
+        </member>
+        <member name="T:NI.Data.QueryGroupNodeType">
+            <summary>
+            Describes the group node types
+            </summary>
+        </member>
+        <member name="F:NI.Data.QueryGroupNodeType.Or">
+            <summary>
+            Logical OR group type
+            </summary>
+        </member>
+        <member name="F:NI.Data.QueryGroupNodeType.And">
+            <summary>
+            Logical AND group type
+            </summary>
+        </member>
+        <member name="T:NI.Data.QueryNegationNode">
+            <summary>
+            Represents logical negation operator
+            </summary>
+        </member>
+        <member name="M:NI.Data.QueryNegationNode.#ctor(NI.Data.QueryNode)">
+            <summary>
+            Initializes a new instance of the QueryNegationNode that wraps specified node  
+            </summary>
+            <param name="node">condition node to negate</param>
+        </member>
+        <member name="T:NI.Data.RelationalExpressions.RelExParseException">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:NI.Data.SimpleStringTemplate">
+            <summary>
+            Simple string template that handles conditional formatting
+            </summary>
+        </member>
+        <member name="M:NI.Data.SimpleStringTemplate.FormatTemplate(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Performs default SQL template parsing that can handle simple code snippets
+            </summary>
+        </member>
+        <member name="T:NI.Data.SqlClient.SqlClientDbSqlBuilder">
+            <summary>
+            MS SQL optimized SQL builder
+            </summary>
+        </member>
+        <member name="T:NI.Data.Triggers.SqlCommandTraceTrigger">
+            <summary>
+            DB DALC trace logger
+            </summary>
+        </member>
+        <member name="M:NI.Data.Triggers.SqlCommandTraceTrigger.#ctor">
+            <summary>
+            Initializes a new instance of SqlCommandTraceTrigger
+            </summary>
+        </member>
+        <member name="M:NI.Data.Triggers.SqlCommandTraceTrigger.#ctor(NI.Data.DataEventBroker)">
+            <summary>
+            Initializes a new instance of SqlCommandTraceTrigger and subscribes it to data events
+            </summary>
+        </member>
+        <member name="P:NI.Data.Triggers.SqlCommandTraceTrigger.Enabled">
+            <summary>
+            Get or set flag that indicates whether logger is enabled
+            </summary>		
+        </member>
+        <member name="T:NI.Data.Web.DalcDataSource">
+            <summary>
+            Enables the use of IDalc component in an ASP.NET Web page to retrieve and modify data from a DALC
+            </summary>
+        </member>
+        <member name="E:NI.Data.Web.DalcDataSource.Selecting">
+            <summary>
+            Occurs before a data-retrieval operation.
+            </summary>
+        </member>
+        <member name="E:NI.Data.Web.DalcDataSource.Selected">
+            <summary>
+            Occurs when a data retrieval operation has finished.
+            </summary>
+        </member>
+        <member name="E:NI.Data.Web.DalcDataSource.Updating">
+            <summary>
+            Occurs before update operation
+            </summary>
+        </member>
+        <member name="E:NI.Data.Web.DalcDataSource.Updated">
+            <summary>
+            Occurs when update operation is finished
+            </summary>
+        </member>
+        <member name="E:NI.Data.Web.DalcDataSource.Inserting">
+            <summary>
+            Occurs before insert operation
+            </summary>
+        </member>
+        <member name="E:NI.Data.Web.DalcDataSource.Inserted">
+            <summary>
+            Occurs when insert operation is finished
+            </summary>
+        </member>
+        <member name="E:NI.Data.Web.DalcDataSource.Deleting">
+            <summary>
+            Occurs before delete operation
+            </summary>
+        </member>
+        <member name="E:NI.Data.Web.DalcDataSource.Deleted">
+            <summary>
+            Occurs when delete operation is finished
+            </summary>
+        </member>
+        <member name="P:NI.Data.Web.DalcDataSource.DataSetMode">
+            <summary>
+            Determines whether datasource should use DataSet for insert/update/delete operations (false by default).
+            </summary>
+        </member>
+        <member name="P:NI.Data.Web.DalcDataSource.AutoIncrementNames">
+            <summary>
+            Get or set list of autoincrement field names (optional).
+            </summary>
+            <remarks>
+            Instead of setting this property DataSetProvider may be used for providing all
+            required information about data schema.
+            </remarks>
+        </member>
+        <member name="P:NI.Data.Web.DalcDataSource.DataKeyNames">
+            <summary>
+            Get or set list of primary key field names (optional).
+            </summary>
+            <remarks>
+            Instead of setting this property DataSetProvider may be used for providing all
+            required information about data schema.
+            </remarks>
+        </member>
+        <member name="P:NI.Data.Web.DalcDataSource.TableName">
+            <summary>
+            Get or set table name for this datasource (required).
+            </summary>
+        </member>
+        <member name="P:NI.Data.Web.DalcDataSource.SelectTableName">
+            <summary>
+            Get or set table name for select action (optional).
+            </summary>
+        </member>
+        <member name="P:NI.Data.Web.DalcDataSource.Dalc">
+            <summary>
+            Get or set DALC instance for this datasource (required).
+            </summary>
+        </member>
+        <member name="P:NI.Data.Web.DalcDataSource.DataSetFactory">
+            <summary>
+            Get or set DataSet factory for specificed table name (optional).
+            </summary>
+        </member>
+        <member name="P:NI.Data.Web.DalcDataSource.Condition">
+            <summary>
+            Get or set data retrieval condition (optional).
+            </summary>
+        </member>
+        <member name="T:NI.Data.Web.DalcDataSourceView">
+            <summary>
+            DALC DataSource view.
+            </summary>
+        </member>
+        <member name="T:NI.Data.Web.DataCacheDependency">
+            <summary>
+            Establishes a relationship between an item stored in an ASP.NET application's Cache object and the results of data query
+            </summary>
+        </member>
+        <member name="M:NI.Data.Web.DataCacheDependency.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the DataCacheDependency and creates dependency from specified data table
+            </summary>
+            <param name="dataSourceId">unique data source identifier</param>
+            <param name="tableName">data table name</param>
+        </member>
+        <member name="M:NI.Data.Web.DataCacheDependency.#ctor(System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the DataCacheDependency and creates dependency from specified data tables
+            </summary>
+            <param name="dataSourceId">unique data source identifier</param>
+            <param name="tableNames">list of data table names</param>
+        </member>
+        <member name="T:NI.Data.Web.InvalidateDataDependencyTrigger">
+            <summary>
+            Triggers DataCacheDependency invalidation by data modification events
+            </summary>
+        </member>
+    </members>
+</doc>

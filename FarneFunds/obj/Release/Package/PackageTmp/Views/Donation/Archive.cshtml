@@ -1,0 +1,26 @@
+﻿@model FarneFunds.Models.DonationDetails
+
+@{
+    ViewBag.Title = "Archive";
+}
+
+<h2>Archive Donation</h2>
+
+Are you sure you want to archive this Donation, it will no longer be able to be accessed.
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.Id);
+    @Html.HiddenFor(x => x.CampaignId);
+    @Html.HiddenFor(x => x.Amount);
+    @Html.HiddenFor(x => x.ContactId);
+    @Html.HiddenFor(x => x.DateDonated);
+
+    @Html.AntiForgeryToken()
+
+    <div style="margin-top: 30px">
+        <input type="submit" value="Archive" class="btn btn-danger" />
+        @Html.ActionLink("Back to Donation", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+    </div>
+}
+

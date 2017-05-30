@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NI.Ioc</id>
+    <version>2.0.2.0</version>
+    <title>NI.Ioc</title>
+    <authors>Vitalii Fedorchenko</authors>
+    <owners>Vitalii Fedorchenko</owners>
+    <projectUrl>http://www.nrecosite.com/ioc_container_net.aspx</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>XML-configurable inversion of control contrainer</description>
+    <copyright>Copyright 2004-2012 NewtonIdeas, v2 2013-2014 Vitalii Fedorchenko</copyright>
+    <tags>Ioc DependencyInjection DI XML</tags>
+  </metadata>
+</package>

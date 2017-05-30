@@ -1,0 +1,43 @@
+﻿@model FarneFunds.Models.TagList
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div>
+    @Html.ActionLink("Create New Tag", "Create", "Tag", new { }, new { @class = "btn btn-success" })
+</div>
+<br />
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#">Current Tags</a></li>
+        <li>@Html.ActionLink("Archived", "ArchivedIndex")</li>
+    </ul>
+
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model.ListOfTags)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Edit", new { id = item.Id })
+                </td>
+                  
+            </tr>
+        }
+
+    </table>
+
+
+
+
+
+
+
+

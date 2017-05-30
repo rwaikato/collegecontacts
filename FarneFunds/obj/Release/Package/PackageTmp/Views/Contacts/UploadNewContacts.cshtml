@@ -1,0 +1,31 @@
+﻿@using FarneFunds.Models;
+@{
+    ViewBag.Title = "Manage Account";
+}
+
+@if ( ViewBag.fileUploaded )
+{
+    <div class="alert alert-success" role="alert">File uploaded Successfully</div>
+}
+else if ( ViewBag.ErrorList != null )
+{
+    <div class="alert-warning" style="padding: 30px" role="alert">
+        Errors where found in the csv file, no contacts have been imported...
+        <br />
+        <br />
+        @foreach ( var error in ViewBag.ErrorList )
+        {
+            <div>@error</div>
+        }
+    </div>
+}
+
+<h1>Upload a CSV File</h1>
+@using ( Html.BeginForm( null, null, FormMethod.Post, new { enctype = "multipart/form-data" } ) )
+{
+    <div>
+        <input type="file" name="files" /><br />
+        <input type="submit" value="Upload" /><br />
+        <p><br /> <a href="@Url.Content( "~/Content/Files/NewContactUpload.csv" )">Click here</a> to download the new contact csv template.</p>
+    </div>
+}

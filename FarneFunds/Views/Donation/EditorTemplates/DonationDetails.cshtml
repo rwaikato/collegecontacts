@@ -1,0 +1,120 @@
+﻿@model FarneFunds.Models.DonationDetails
+
+@{
+    ViewBag.Title = "DonationDetails";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor( model => model.ReturnToContactId )
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContactId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ContactId, Model.ContactSelectList, "< Select Contact >", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContactId)
+            </div>
+        </div>
+
+        @if( !Model.CampaignId.HasValue )
+        { 
+            <div class="form-group">
+                @Html.LabelFor(model => model.CampaignId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.CampaignId, Model.CampaignSelectList, "< Select Campaign >", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CampaignId)
+                </div>
+            </div>
+        }
+        else
+        {
+         @Html.HiddenFor( model => model.CampaignId)   
+        }
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Amount)
+                </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateDonated, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.DateDonated, new { @class = "form-control date-picker", @Value = Model.DateDonated.ToString("dd/MM/yyyy") })
+                @Html.ValidationMessageFor(model => model.DateDonated)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" />
+                @if (Model.Id > 0)
+                {
+                    @Html.ActionLink("Archive", "Archive", new { id = Model.Id }, new { @class = "btn btn-danger" })
+                }
+                
+                @if( Model.ReturnToContactId.HasValue && Model.ReturnToContactId.Value > 0)
+                {
+                     @Html.ActionLink("Back to Contact", "Index", "Donation", new { contactId = Model.ReturnToContactId}, new { @class = "btn btn-warning" })
+                }
+                else
+                { 
+                    @Html.ActionLink("Back to Campaign", "Index", "Donation", new { campaignId = Model.CampaignId }, new { @class = "btn btn-warning" })
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+        $('.date-picker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
+</script>
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ContactName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("AutoCompleteContacts")',
+                    type: "GET",
+                    dataType: "json",
+                    data: {
+                        term: $('#ContactName').val()
+                        },
+                    success: function (data) {
+                                
+                        response($.map(data, function (value, index) {
+                            //alert(index);
+                            return {
+                                label: value,
+                                value: value
+                            }
+                        })
+                        );
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //debugger;
+                        alert(textStatus);
+                    }
+                });
+            }
+,
+            minLength: 1,
+            select: function (event, ui) {
+                // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action 
+            }
+        });
+    })
+</script>*@
+

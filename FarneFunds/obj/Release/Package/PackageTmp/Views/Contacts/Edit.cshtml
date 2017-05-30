@@ -1,0 +1,20 @@
+﻿@model FarneFunds.Models.ContactDetails
+
+@{
+    ViewBag.Title = "Edit Contact Details";
+}
+
+<div style="margin-top: 15px;">
+    @Html.ActionLink("Create New Donation", "Create", "Donation", new { ContactId = Model.Id }, new { @class = "btn btn-success pull-right" })
+    <h2>Contact Details</h2>
+</div>
+
+<div style="clear:both"></div>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#">Contact Overview</a></li>
+    <li><a href="@Url.Action("Index", "Donation", new { contactId = Model.Id })">Donations</a></li>
+</ul>
+
+@Html.EditorForModel()
+

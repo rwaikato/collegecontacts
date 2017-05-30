@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NReco.Application</name>
+    </assembly>
+    <members>
+        <member name="T:NReco.Application.EventBroker">
+            <summary>
+            Transaction-aware implementation of event broker used for NReco application events.
+            </summary>
+        </member>
+        <member name="M:NReco.Application.EventBroker.#ctor">
+            <summary>
+            Initializes a new instance of DataEventBroker
+            </summary>
+        </member>
+        <member name="M:NReco.Application.EventBroker.PublishInTransaction(System.Object,System.EventArgs)">
+            <summary>
+            Publish specified event in the transaction scope
+            </summary>
+            <param name="sender">event source</param>
+            <param name="eventArgs">event arguments</param>
+        </member>
+        <member name="M:NReco.Application.EventBroker.Publish(System.Object,System.EventArgs)">
+            <summary>
+            Publish specified event for registered subscribers
+            </summary>
+            <param name="sender">event source</param>
+            <param name="eventArgs">event arguments</param>
+        </member>
+        <member name="M:NReco.Application.EventBroker.Subscribe``1(System.EventHandler{``0})">
+            <summary>
+            Subscribe a handler for specified event type
+            </summary>
+            <typeparam name="T">event type to match</typeparam>
+            <param name="handler">event handler delegate</param>
+        </member>
+        <member name="M:NReco.Application.EventBroker.Subscribe``1(System.Func{System.EventArgs,System.Boolean},System.EventHandler{``0})">
+            <summary>
+            Subscribe a handler for specified event type
+            </summary>
+            <typeparam name="T">event type to match</typeparam>
+            <param name="match">match condition delegate</param>
+            <param name="handler">event handler delegate</param>
+        </member>
+        <member name="M:NReco.Application.EventBroker.Subscribe(System.Type,System.EventHandler{System.EventArgs})">
+            <summary>
+            Subscribe a handler for specified event type
+            </summary>
+            <param name="eventType">event type to match</param>
+            <param name="handler">event handler delegate</param>
+        </member>
+        <member name="M:NReco.Application.EventBroker.Subscribe(System.Type,System.Func{System.EventArgs,System.Boolean},System.EventHandler{System.EventArgs})">
+            <summary>
+            Subscribe a handler for specified event type and match condition
+            </summary>
+            <param name="eventType">event type to match</param>
+            <param name="match">match condition delegate</param>
+            <param name="handler">event handler delegate</param>
+        </member>
+        <member name="M:NReco.Application.EventBroker.Unsubscribe(System.Delegate)">
+            <summary>
+            Unsubscribes specified delegate from all events
+            </summary>
+            <remarks>This method unsubscribes specified delegate from ALL event types</remarks>
+            <param name="handler">delegate to unsubscribe</param>
+            <returns>true if item is successfully removed; otherwise, false.</returns>
+        </member>
+        <member name="E:NReco.Application.EventBroker.Publishing">
+            <summary>
+            Occurs each time when event is published, but before executing subscribed handlers
+            </summary>
+        </member>
+        <member name="E:NReco.Application.EventBroker.Published">
+            <summary>
+            Occurs each time when event is published, but after executing subscribed handlers
+            </summary>
+        </member>
+        <member name="P:NReco.Application.EventBroker.TransactionConnections">
+            <summary>
+            Get or set DB connections that should be opened for events published in transaction.
+            </summary>
+        </member>
+        <member name="T:NReco.Application.Ioc.LambdaProvider">
+            <summary>
+            Object provider based on lambda parser. Used by NReco infrastructure.
+            </summary>
+        </member>
+        <member name="T:NReco.Application.Log4Net.LogFactory">
+            <summary>
+            Log4Net logger wrapper for NReco logging subsystem.
+            </summary>
+        </member>
+        <member name="T:NReco.Application.Mail.SendMailSmtpConfiguration">
+            <summary>
+            Represents SendMail SMTP connection configuration
+            </summary>
+        </member>
+        <member name="T:NReco.Application.Mail.SendMailMessageEventArgs">
+            <summary>
+            Send mail request arguments.
+            </summary>
+        </member>
+        <member name="P:NReco.Application.Mail.SendMailMessageEventArgs.ThrowExceptionOnError">
+            <summary>
+            Gets or sets a value indicating whether an exception should be raised if an error occurs while sending mail message
+            </summary>
+            <remarks>The default value is true.</remarks>
+        </member>
+        <member name="T:NReco.Application.Mail.SendMail">
+            <summary>
+            Transaction-aware mail sender that can process EventBroker send mail events.
+            </summary>
+        </member>
+        <member name="M:NReco.Application.Mail.SendMail.Send(System.Net.Mail.MailMessage)">
+            <summary>
+            Sends the specified message to an SMTP server for delivery (immediately). 
+            </summary>
+            <param name="mailMsg">A MailMessage that contains the message to send.</param>
+        </member>
+        <member name="M:NReco.Application.Mail.SendMail.SendTransactional(System.Net.Mail.MailMessage,System.Boolean)">
+            <summary>
+            Sends the specified message to an SMTP server for delivery on transaction commit (if present). 
+            </summary>
+            <param name="mailMsg">A MailMessage that contains the message to send.</param>
+            <param name="throwExceptionOnError">Determines whether an exception should be raised if an error occurs while sending mail message</param>
+        </member>
+    </members>
+</doc>

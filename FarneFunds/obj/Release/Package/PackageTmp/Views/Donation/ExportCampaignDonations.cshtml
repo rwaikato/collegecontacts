@@ -1,0 +1,46 @@
+﻿@model FarneFunds.Models.DonationList
+
+<h2>Donations - @Model.ExportDate.Value.ToShortDateString( )</h2>
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Contact
+            </th>
+            <th>
+                Campaign
+            </th>
+            <th>
+                Date Donated
+            </th>
+            <th>
+                Amount
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.Donations)
+    {
+        <tr>
+            <td>
+                @item.ContactName
+            </td>
+            <td>
+                @item.CampaignName
+            </td>
+            <td>
+                @item.DateDonated.ToShortDateString()
+            </td>
+            <td>
+                @item.Amount.ToString("C")
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td colspan="3"><strong>Total</strong></td>
+        <td><strong>@Model.DonationTotal</strong></td>
+    </tr>
+
+</table>

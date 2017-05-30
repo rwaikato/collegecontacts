@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NReco</id>
+    <version>2.0.1.0</version>
+    <title>NReco</title>
+    <authors>Vitalii Fedorchenko</authors>
+    <owners>Vitalii Fedorchenko</owners>
+    <projectUrl>http://www.nrecosite.com/nrecolib_net.aspx</projectUrl>
+    <iconUrl>http://www.nrecosite.com/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NReco commons library: delegate adapters (partial delegate application, lazy delegate proxy), runtime type converters (adapters for collections, lists, dictionaries), lambda parser.</description>
+    <copyright>Copyright 2008-2014 Vitalii Fedorchenko</copyright>
+    <tags>NReco delegate LamdaParser</tags>
+  </metadata>
+</package>

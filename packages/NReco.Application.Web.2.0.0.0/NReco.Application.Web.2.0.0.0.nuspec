@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NReco.Application.Web</id>
+    <version>2.0.0.0</version>
+    <title>NReco.Application.Web</title>
+    <authors>Vitalii Fedorchenko</authors>
+    <owners>Vitalii Fedorchenko</owners>
+    <projectUrl>http://www.nrecosite.com/</projectUrl>
+    <iconUrl>http://www.nrecosite.com/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NReco.Application.Web provides common infrastructure for ASP.NET NReco application.</description>
+    <copyright>Copyright 2008-2014 Vitalii Fedorchenko</copyright>
+    <tags>NReco AspNet</tags>
+    <dependencies>
+      <dependency id="NI.Data" version="2.0.2.0" />
+      <dependency id="NReco.Application" version="2.0.0.0" />
+    </dependencies>
+  </metadata>
+</package>

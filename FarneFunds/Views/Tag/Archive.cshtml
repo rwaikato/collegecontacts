@@ -1,0 +1,23 @@
+﻿@model FarneFunds.Models.TagDetails
+
+@{
+    ViewBag.Title = "Archive";
+}
+
+<h2>Archive Tag</h2>
+
+Are you sure you want to archive this Tag, it will no longer be able to be accessed.
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.Name)
+
+    @Html.AntiForgeryToken()
+
+    <div style="margin-top: 30px">
+        <input type="submit" value="Archive" class="btn btn-danger" />
+        @Html.ActionLink("Back to Tag", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+    </div>
+}
+

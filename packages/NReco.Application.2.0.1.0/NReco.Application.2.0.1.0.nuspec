@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NReco.Application</id>
+    <version>2.0.1.0</version>
+    <title>NReco.Application</title>
+    <authors>Vitalii Fedorchenko</authors>
+    <owners>Vitalii Fedorchenko</owners>
+    <projectUrl>http://www.nrecosite.com/</projectUrl>
+    <iconUrl>http://www.nrecosite.com/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NReco.Application integrates external dependencies (NI.Ioc,Mvp.Xml,Log4Net,NReco) and provides basic NReco application context.</description>
+    <copyright>Copyright 2008-2014 Vitalii Fedorchenko</copyright>
+    <tags>NRecoApplication Ioc DI</tags>
+    <dependencies>
+      <dependency id="log4net" version="2.0.3" />
+      <dependency id="Mvp.Xml" version="2.3.0" />
+      <dependency id="NI.Ioc" version="2.0.2.0" />
+      <dependency id="NI.Vfs" version="2.0.0.0" />
+      <dependency id="NReco" version="2.0.1.0" />
+    </dependencies>
+  </metadata>
+</package>

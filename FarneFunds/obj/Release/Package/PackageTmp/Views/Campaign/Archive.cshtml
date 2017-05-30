@@ -1,0 +1,24 @@
+﻿@model FarneFunds.Models.CampaignDetails
+
+@{
+    ViewBag.Title = "Archive Campaign";
+}
+
+<h2>Archive Campaign - @Model.Name</h2>
+
+Are you sure you want to archive @Model.Name, the campaign will no longer be able to be accessed.
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.Id);
+    @Html.HiddenFor(x => x.Name);
+    @Html.HiddenFor(x => x.DateStart);
+    @Html.HiddenFor(x => x.Raised);
+    @Html.AntiForgeryToken()
+
+    <div style="margin-top: 30px">
+        <input type="submit" value="Archive" class="btn btn-danger" />
+        @Html.ActionLink("Back to Campaign", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+    </div>
+}
+

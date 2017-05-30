@@ -1,0 +1,651 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NI.Ioc</name>
+    </assembly>
+    <members>
+        <member name="T:NI.Ioc.ApplicationContainer">
+            <summary>
+            Application components container that can use IComponentFactory as service provider
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.ApplicationContainer.GetService(System.Type)">
+            <summary>
+            Get service of specified type. Search sequence:
+            1) base.GetService (default Container behaviour)
+            2) ServiceProvider
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.ApplicationContainer.CreateSite(System.ComponentModel.IComponent,System.String)">
+            <summary>
+            Do not use Container.CreateSite because of buggy MONO 1.1 implementation of this method.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ApplicationContainer.ComponentFactory">
+            <summary>
+            Component factory associated with this container.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:NI.Ioc.ArrayFactory" -->
+        <member name="T:NI.Ioc.IFactoryComponent">
+            <summary>
+            Represents container factory component (component that implements custom object initialization logic)
+            </summary>
+            <remarks>The root interface for accessing a inversion-of-control container.</remarks>
+        </member>
+        <member name="M:NI.Ioc.IFactoryComponent.GetObject">
+            <summary>
+            Returns an instance of the object this factory creates.
+            </summary>
+            <returns>constructed object instance</returns>
+        </member>
+        <member name="M:NI.Ioc.IFactoryComponent.GetObjectType">
+            <summary>
+            Returns the object type returned by the GetObject() method
+            </summary>
+            <returns>Type</returns>
+        </member>
+        <member name="M:NI.Ioc.ArrayFactory.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ArrayFactory.ElementType">
+            <summary>
+            Get or set array element type
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ArrayFactory.Elements">
+            <summary>
+            Get or set enumerations of array
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.BaseMethodInvokingFactory.TargetMethodArgs">
+            <summary>
+            Get or set target method args values
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.BaseMethodInvokingFactory.TargetMethodArgTypes">
+            <summary>
+            Get or set target method args types
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.ComponentFactoryExt">
+            <summary>
+            Common IComponentFactory interface extensions 
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.ComponentFactoryExt.GetComponent``1(NI.Ioc.IComponentFactory,System.String)">
+            <summary>
+            Return an instance of the specified component that match specified type.
+            </summary>
+            <typeparam name="T">type the component must match</typeparam>
+            <param name="name"></param>
+            <returns>component instance of desired type</returns>
+        </member>
+        <member name="T:NI.Ioc.ComponentFactoryContext">
+            <summary>
+            ServiceProviderContext used for referencing to IoC container inside its configuration.
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IComponentFactoryAware">
+            <summary>
+            Interface to be implemented by components that wish to be aware of their owning IComponentFactory. 
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentFactoryAware.ComponentFactory">
+            <summary>
+            Set owning service factory to component instance
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentFactoryContext.ComponentFactory">
+            <summary>
+            Get or set context service provider
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.DelegateFactory">
+            <summary>
+            Creates delegate of target object's method.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.DelegateFactory.TargetObject">
+            <summary>
+            Get or set target object instance
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.DelegateFactory.TargetMethod">
+            <summary>
+            Get or set target method name to invoke
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:NI.Ioc.DelegateFactory.DelegateType" -->
+        <member name="T:NI.Ioc.DependencyAttribute">
+            <summary>
+            This attribute is used to mark properties as targets for injection. 
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.DependencyAttribute.#ctor">
+            <summary>
+            Create an instance of DependencyAttribute with no name (injection by type). 
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.DependencyAttribute.#ctor(System.String)">
+            <summary>
+            Create an instance of DependencyAttribute with the given name.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.DependencyAttribute.Name">
+            <summary>
+            Get or set flag that indicates whether target property is required dependency
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IComponentFactory">
+            <summary>
+            The root interface for accessing a IoC components container.
+            </summary>
+            <remarks>
+            This is the basic client view of a components container.
+            </remarks>
+        </member>
+        <member name="M:NI.Ioc.IComponentFactory.GetComponent(System.String)">
+            <summary>
+            Return an instance, which may be shared or independent, of specified component
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.IComponentFactory.GetComponent(System.String,System.Type)">
+            <summary>
+            Return an instance, which may be shared or independent, of the specified component.
+            </summary>
+            <param name="name">component name</param>
+            <param name="requiredType">type the component must match. Can be an interface or base of the actual class, or null for any match.</param>
+            <returns>component instance</returns>
+        </member>
+        <member name="T:NI.Ioc.ComponentConfiguration">
+            <summary>
+            Generic in-memory implementation of IComponentFactoryConfiguration.
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IComponentFactoryConfiguration">
+            <summary>
+            Represents components graph configuration
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentFactoryConfiguration.Count">
+            <summary>
+            Get number of components definitions
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentFactoryConfiguration.Item(System.String)">
+            <summary>
+            Get component definition by name (alias)
+            </summary>
+            <value>ICompanyInitInfo object or null</value>
+        </member>
+        <member name="P:NI.Ioc.IComponentFactoryConfiguration.Item(System.Type)">
+            <summary>
+            Get component definition by System.Type
+            </summary>
+            <value>ICompanyInitInfo object or null</value>
+        </member>
+        <member name="P:NI.Ioc.ComponentConfiguration.Description">
+            <summary>
+            Components collection description
+            Null by default
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentConfiguration.Count">
+            <summary>
+            Get number of top-level component definitions
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.StaticFieldInvokingFactory">
+            <summary>
+            StaticFieldInvokingFactory used for defining instance as static field of some class.
+            </summary>
+            <example><code>
+            &lt;component name="datetimenow" type="NI.Ioc.StaticFieldInvokingFactory,NI.Ioc" singleton="false" lazy-init="true"&gt;
+            	&lt;property name="TargetType"&gt;&lt;type&gt;System.DBNull,Mscorlib&lt;/type&gt;&lt;/property&gt;
+            	&lt;property name="TargetField"&gt;&lt;value&gt;Value&lt;/value&gt;&lt;/property&gt;
+            &lt;/component&gt;
+            </code></example>
+        </member>
+        <member name="P:NI.Ioc.StaticFieldInvokingFactory.TargetType">
+            <summary>
+            Get or set target type
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.StaticFieldInvokingFactory.TargetField">
+            <summary>
+            Get or set static target property name
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.EventBinder">
+            <summary>
+            EventBinder is a helper component that gives ability to bind events and events handlers inside IoC-configuration.
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.EventBinder.Init">
+            <summary>
+            Perform all necessary calls
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.EventBinder.SenderObject">
+            <summary>
+            Get or set event sender object
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.EventBinder.ReceiverObject">
+            <summary>
+            Get or set receiver method object
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.EventBinder.SenderEvent">
+            <summary>
+            Get or set event name
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.EventBinder.ReceiverMethod">
+            <summary>
+            Get or set event name
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IndexerInvokingFactory">
+            <summary>
+            Factory component which returns a value represented by specified object's indexer property.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IndexerInvokingFactory.TargetObject">
+            <summary>
+            Get or set target object
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IndexerInvokingFactory.IndexerArgs">
+            <summary>
+            Get or set indexer arguments
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IComponentInitInfo">
+            <summary>
+            Represents initialization information about component
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentInitInfo.Singleton">
+            <summary>
+            Is this component a "singleton" (one shared instance).
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentInitInfo.LazyInit">
+            <summary>
+            Is this object to be lazily initialized
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentInitInfo.Name">
+            <summary>
+            Component name (string identifier).
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentInitInfo.ComponentType">
+            <summary>
+            Component System.Type
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentInitInfo.Description">
+            <summary>
+            Component description text. Null by default.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentInitInfo.ConstructorArgs">
+            <summary>
+            Constructor arguments
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentInitInfo.Properties">
+            <summary>
+            Properies to set
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IComponentInitInfo.InitMethod">
+            <summary>
+            Initialization method name. Null by default.
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IPropertyInitInfo">
+            <summary>
+            Represents property initalization definition
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IPropertyInitInfo.Name">
+            <summary>
+            Property name
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.IPropertyInitInfo.Value">
+            <summary>
+            Property value
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IServiceProviderAware">
+            <summary>
+            Interface to be implemented by components that wish to be aware of their owning IServiceProvider. 
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IValueFactory">
+            <summary>
+            Factory used to initialize a new instance by IValueInitInfo
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.IValueInitInfo">
+            <summary>
+            Represents value initialization information
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.MethodInvokingFactory">
+            <summary>
+            Factory component which returns a value which is the result of instance method invocation.
+            </summary>
+            <example><code>
+            &lt;component name="datetimenow-3days" type="NI.Ioc.MethodInvokingFactory,NI.Ioc" singleton="false" lazy-init="true"&gt;
+            	&lt;property name="TargetObject"&gt;&lt;ref name="dateTimeNow"/&gt;&lt;/property&gt;
+            	&lt;property name="TargetMethod"&gt;&lt;value&gt;AddDays&lt;/value&gt;&lt;/property&gt;
+            	&lt;property name="TargetMethodArgTypes"&gt;&lt;list&gt;&lt;entry&gt;&lt;type&gt;System.Double,Mscorlib&lt;/type&gt;&lt;/entry&gt;&lt;/list&gt;&lt;/property&gt;
+            	&lt;property name="TargetMethodArgs"&gt;&lt;list&gt;&lt;entry&gt;&lt;value&gt;-3&lt;/value&gt;&lt;/entry&gt;&lt;/list&gt;&lt;/property&gt;
+            &lt;/component&gt; 
+            </code></example>
+            <inherit>NI.Ioc.BaseMethodInvokingFactory</inherit>
+        </member>
+        <member name="P:NI.Ioc.MethodInvokingFactory.TargetObject">
+            <summary>
+            Get or set target object instance
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.MethodInvokingFactory.TargetMethod">
+            <summary>
+            Get or set target method name to invoke
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.PropertyInvokingFactory">
+            <summary>
+            Factory component which returns a value represented by specified object's property.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.PropertyInvokingFactory.TargetObject">
+            <summary>
+            Get or set target object
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.PropertyInvokingFactory.TargetProperty">
+            <summary>
+            Get or set static target property name
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.ReplacingFactory">
+            <summary>
+            Factory component which returns a specified object.
+            </summary>
+            <example><code>
+            &lt;component name="testEnabled" type="NI.Ioc.ReplacingFactory,NI.Ioc" singleton="true"&gt;
+            	&lt;property name="TargetObject"&gt;&lt;value&gt;&lt;ref name="testEnabledVariable"/&gt;&lt;/property&gt;	
+            &lt;/component&gt;
+            </code></example>
+        </member>
+        <member name="P:NI.Ioc.ReplacingFactory.TargetObject">
+            <summary>
+            Get or set object to return
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.ComponentInitInfo">
+            <summary>
+            Represents component initialization information
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.Singleton">
+            <summary>
+            Singleton flag. True by default.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.LazyInit">
+            <summary>
+            Lazy init flag. False by default.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.Name">
+            <summary>
+            Component name
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.Parent">
+            <summary>
+            Component parent name
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.InitMethod">
+            <summary>
+            Initialization method name. Null by default.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.ComponentType">
+            <summary>
+            Component System.Type
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.Description">
+            <summary>
+            Component description. Null by default.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.ConstructorArgs">
+            <summary>
+            Constructor arguments.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentInitInfo.Properties">
+            <summary>
+            Properies to set
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.XmlComponentConfiguration">
+            <summary>
+            Component configuration implementation based on XML.
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.XmlComponentConfiguration.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the XmlComponentConfiguration class with specified XML string
+            </summary>
+            <param name="xml">XML string</param>
+        </member>
+        <member name="M:NI.Ioc.XmlComponentConfiguration.#ctor(System.Xml.XmlReader)">
+            <summary>
+            Initializes a new instance of the XmlComponentConfiguration class with specified XmlReader
+            </summary>
+            <param name="configXmlReader">XmlReader for XML configuration</param>
+        </member>
+        <member name="T:NI.Ioc.ListValueInitInfo">
+            <summary>
+            List value initialization info
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.MapValueInitInfo">
+            <summary>
+            Map (dictionary) value initialization info
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.MapEntryInfo">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.PropertyInfo">
+            <summary>
+            Property initialization information 
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.RefValueInfo">
+            <summary>
+            Value initialization info represented by reference to another component definition
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.TypeValueInitInfo">
+            <summary>
+            Value initialization info that represents some Type
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.ValueInitInfo">
+            <summary>
+            Value initialization info represented by specified object
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.ComponentFactory">
+            <summary>
+            Component factory implementation based on abstract IComponentConfiguration structure.
+            </summary>
+            <remarks>This class provides basic functionality of IoC-container: singleton cache, IFactoryComponent handling, components disposing.</remarks>
+            <assemblyLink>https://code.google.com/p/nicnet/source/browse/src/NI.Ioc?name=nicnet2</assemblyLink>
+        </member>
+        <member name="M:NI.Ioc.ComponentFactory.#ctor(NI.Ioc.IComponentFactoryConfiguration)">
+            <summary>
+            Initializes a new instance of the ComponentFactory class with specified componet configuration.
+            </summary>
+            <param name="config">IComponentFactoryConfiguration component</param>
+        </member>
+        <member name="M:NI.Ioc.ComponentFactory.#ctor(NI.Ioc.IComponentFactoryConfiguration,System.Boolean)">
+            <summary>
+            Initializes a new instance of the ComponentFactory class with specified componet configuration and counters option.
+            </summary>
+            <param name="config">IComponentFactoryConfiguration component</param>
+            <param name="countersEnabled">enables stats counters (component creation / retrieving)</param>
+        </member>
+        <member name="M:NI.Ioc.ComponentFactory.GetService(System.Type)">
+            <summary>
+            Get requested service by type.
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.ComponentFactory.GetComponent(System.String)">
+            <summary>
+            <see cref="!:NI.Ioc.IComponentFactory(string)"/>
+            </summary>
+        </member>
+        <member name="M:NI.Ioc.ComponentFactory.GetComponent(System.String,System.Type)">
+            <summary>
+            <see cref="!:NI.Ioc.IComponentFactory(string,System.Type)"/>
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentFactory.ReflectionCacheEnabled">
+            <summary>
+            Enables reflection cache using Reflection.Emit.DynamicMethod (increases components creation performance)
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentFactory.Configuration">
+            <summary>
+            Get or set components configuration for this factory
+            </summary>
+        </member>
+        <member name="E:NI.Ioc.ComponentFactory.Disposed">
+            <summary>
+            Represents the method that handles the Disposed event of this ComponentFactory.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentFactory.Counters">
+            <summary>
+            Get stats counters (available only if CountersEnabled=true)
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentFactory.Site">
+            <summary>
+            Gets or sets the ISite associated with this ComponentFactory.
+            </summary>
+            <remarks>If Config is not initialized ComponentFactory tries to locate IComponentConfig by Site.GetService</remarks>
+        </member>
+        <member name="T:NI.Ioc.ServiceProviderContext">
+            <summary>
+            ServiceProviderContext used for referencing to IoC container inside its configuration.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ServiceProviderContext.ServiceProvider">
+            <summary>
+            Get or set context service provider
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.ComponentFactoryInvokingFactory">
+            <summary>
+            Factory that returns specific component from owning component factory.
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentFactoryInvokingFactory.ComponentFactory">
+            <summary>
+            Get or set component factory instance
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.ComponentFactoryInvokingFactory.ServiceName">
+            <summary>
+            Get or set component name to retrieve from component factory
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.StaticMethodInvokingFactory">
+            <summary>
+            Factory component which returns a value which is the result of a static method invocation.
+            </summary>
+            <example><code>
+            &lt;component name="falseInstance" type="NI.Ioc.StaticMethodInvokingFactory,NI.Ioc" singleton="false" lazy-init="true"&gt;
+            	&lt;property name="TargetType"&gt;&lt;type&gt;System.Boolean,Mscorlib&lt;/type&gt;&lt;/property&gt;
+            	&lt;property name="TargetMethod"&gt;&lt;value&gt;Parse&lt;/value&gt;&lt;/property&gt;
+            	&lt;property name="TargetMethodArgTypes"&gt;
+            		&lt;list&gt;
+            			&lt;entry&gt;&lt;type&gt;System.String,Mscorlib&lt;/type&gt;&lt;/entry&gt;		
+            		&lt;/list&gt;
+            	&lt;/property&gt;
+            	&lt;property name="TargetMethodArgs"&gt;
+            		&lt;list&gt;
+            			&lt;entry&gt;&lt;value&gt;False&lt;/value&gt;&lt;/entry&gt;		  
+            		&lt;/list&gt;
+            	&lt;/property&gt;
+            &lt;/component&gt;
+            </code></example>
+            <inherit>NI.Ioc.BaseMethodInvokingFactory</inherit>
+        </member>
+        <member name="P:NI.Ioc.StaticMethodInvokingFactory.TargetType">
+            <summary>
+            Get or set target type
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.StaticMethodInvokingFactory.TargetMethod">
+            <summary>
+            Get or set static target method name
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.StaticPropertyInvokingFactory">
+            <summary>
+            Factory component which returns a value represented by specified static property.
+            </summary>
+            <example><code>
+            &lt;component name="datetimenow" type="NI.Ioc.StaticPropertyInvokingFactory,NI.Ioc" singleton="false" lazy-init="true"&gt;
+            	&lt;property name="TargetType"&gt;&lt;type&gt;System.DateTime,Mscorlib&lt;/type&gt;&lt;/property&gt;
+            	&lt;property name="TargetProperty"&gt;&lt;value&gt;Now&lt;/value&gt;&lt;/property&gt;
+            &lt;/component&gt;
+            </code></example>
+        </member>
+        <member name="P:NI.Ioc.StaticPropertyInvokingFactory.TargetType">
+            <summary>
+            Get or set target type
+            </summary>
+        </member>
+        <member name="P:NI.Ioc.StaticPropertyInvokingFactory.TargetProperty">
+            <summary>
+            Get or set static target property name
+            </summary>
+        </member>
+        <member name="T:NI.Ioc.XmlComponentConfigurationSectionHandler">
+            <summary>
+            Configuration section handler for XmlComponentConfiguration
+            (so you may place configuration in the app.config or web.config)
+            </summary>
+            <example><code>
+            &lt;configSections&gt;
+            	&lt;section name="ioc" type="NI.Ioc.XmlComponentConfigurationSectionHandler, NI.Ioc" /&gt;
+            &lt;/configSections&gt;
+            &lt;ioc&gt;
+            	&lt;!-- components definitions --&gt;
+            &lt;/ioc&gt;
+            </code></example>
+        </member>
+    </members>
+</doc>

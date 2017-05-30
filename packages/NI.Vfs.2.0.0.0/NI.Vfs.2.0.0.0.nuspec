@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NI.Vfs</id>
+    <version>2.0.0.0</version>
+    <title>NI.Vfs</title>
+    <authors>NewtonIdeas</authors>
+    <owners>NewtonIdeas</owners>
+    <projectUrl>http://www.nrecosite.com/vfs_net.aspx</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Virtual file system (VFS) provides a single API for accessing various different file systems.</description>
+    <copyright>Copyright 2004-2012 NewtonIdeas, v2 2013-2014 Vitalii Fedorchenko</copyright>
+    <tags>Vfs Filesystem</tags>
+  </metadata>
+</package>

@@ -1,0 +1,149 @@
+﻿@model FarneFunds.Models.ContactDetailsList
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Contact List";
+}
+
+@using ( Html.BeginForm( ) )
+{
+
+    <div class="clearfix">
+        @Html.HiddenFor( model => model.ContactTab )
+        @Html.ActionLink( "New Contact", "Create", null, new { @class = "btn btn-success", style = "margin-left: 1px" } )
+        @Html.ActionLink( "Import Contacts", "UploadNewContacts", null, new { @class = "btn btn-success", style = "margin-left: 1px" } )
+        @Html.ActionLink( "Address Labels", "GetAddressGrid", new { campaignId = Model.CampaignId, query = Model.Query, tagId = Model.TagId, contactTab = Model.ContactTab, publicationId = Model.PublicationId, supporterType = Model.SupporterType }, new { @class = "btn btn-warning", style = "margin-left: 1px", @target = "_blank" } )
+        @Html.ActionLink( "Excel Export", "ExportToExcel", new { campaignId = Model.CampaignId, query = Model.Query, tagId = Model.TagId, contactTab = Model.ContactTab, publicationId = Model.PublicationId, supporterType = Model.SupporterType }, new { @class = "btn btn-warning", style = "margin-left: 1px", @target = "_blank" } )
+        @Html.ActionLink( "Tags", "Index", "Tag", new { }, new { @class = "btn btn-primary", style = "margin-left: 1px" } )
+
+        <input type="submit" value="Search" class="btn btn-primary pull-right" />
+        @Html.TextBoxFor( m => m.Query, new { @class = "form-control  pull-right", @placeholder = "Search Contact Names", @style = "margin-right: 5px" } )
+    </div>
+    <div style="clear:both"></div>
+    <div style="margin-top: 5px">
+        @Html.DropDownListFor( m => m.CampaignId, Model.CampaignSelectList, "Filter by Campaign", new { @class = "form-control  pull-right", @style = "max-width: 180px; margin-right: 5px" } )
+        @Html.DropDownListFor( m => m.TagId, Model.TagSelectList, "Filter by Tag", new { @class = "form-control  pull-right", @style = "max-width: 140px; margin-right: 5px" } )
+        @Html.DropDownListFor( m => m.PublicationId, Model.Publications, "Filter by Publications", new { @class = "form-control  pull-right", @style = "max-width: 200px; margin-right: 5px" } )
+
+        @if ( Model.ContactTab == ( int )FarneFunds.Classes.Enums.ContactTab.Support )
+        {
+            @Html.DropDownListFor( m => m.SupporterType, Model.SupporterTypes, "Filter by Supporter Type", new { @class = "form-control  pull-right", @style = "max-width: 220px; margin-right: 5px" } )
+        }
+    </div>
+
+
+
+<div style="clear: both; padding: 10px;"></div>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="@(Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.All ? "active" : "")">@Html.ActionLink( "All Contacts", "Index", new { campaignId = Model.CampaignId, query = @Model.Query, contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.All, tagId = Model.TagId, publicationId = Model.PublicationId } )</li>
+    <li class="@(Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.OldBoy ? "active" : "")">@Html.ActionLink( "Old Boys", "Index", new { campaignId = Model.CampaignId, query = @Model.Query, contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.OldBoy, tagId = Model.TagId, publicationId = Model.PublicationId } )</li>
+    <li class="@(Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.Donor ? "active" : "")">@Html.ActionLink( "Donors", "Index", new { campaignId = Model.CampaignId, query = @Model.Query, contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.Donor, tagId = Model.TagId, publicationId = Model.PublicationId } )</li>
+    <li class="@(Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.Support ? "active" : "")">@Html.ActionLink( "Supporters", "Index", new { campaignId = Model.CampaignId, query = @Model.Query, contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.Support, tagId = Model.TagId, publicationId = Model.PublicationId } )</li>
+    <li class="@(Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.SetProvince ? "active" : "")">@Html.ActionLink( "Set Province", "Index", new { campaignId = Model.CampaignId, query = @Model.Query, contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.SetProvince, tagId = Model.TagId, publicationId = Model.PublicationId } )</li>
+    <li class="@(Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.Archived ? "active" : "")">@Html.ActionLink( "Archived", "Index", new { campaignId = Model.CampaignId, query = @Model.Query, contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.Archived, tagId = Model.TagId, publicationId = Model.PublicationId } )</li>
+    <li>@Html.ActionLink( "History", "Audit" )</li>
+</ul>
+    
+<br />
+    
+}
+
+
+
+@{string contactName = "";}
+
+    @for (int i = 0; i < @Model.ContactList.Count(); i++)
+    {
+        contactName = ((String.IsNullOrWhiteSpace(@Model.ContactList[i].Initials) ? "" : @Model.ContactList[i].Initials + " ") + (String.IsNullOrWhiteSpace(@Model.ContactList[i].FirstName) ? "" : @Model.ContactList[i].FirstName + " ") + (String.IsNullOrWhiteSpace(@Model.ContactList[i].LastName) ? "" : @Model.ContactList[i].LastName + " "));
+          <div class="row">
+              <div class="col-md-4">
+                  <div class="list-group">
+                    @if (Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.Archived)
+                    {
+                        <h4 class="list-group-item-heading list-group-item" style="overflow:hidden">
+                            @contactName
+                            @Html.ActionLink("Unarchive", "Unarchive", new { id = @Model.ContactList[i].Id }, new { @class = "btn-sm btn-danger pull-right" })
+                        </h4>
+                    }
+                    else
+                    {
+                        <h4 class="list-group-item-heading">@Html.ActionLink( @contactName, "Edit", new { id = Model.ContactList[ i ].Id, page = Model.Page, campaignId = Model.CampaignId, query = @Model.Query, contactTab = @Model.ContactTab, tagId = @Model.TagId, publicationId = @Model.PublicationId, supporterType = @Model.SupporterType }, new { @class = "list-group-item" } )
+                       
+                      </h4>
+                    }
+
+                      <div class="list-group-item">
+                          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].EmailAddress<br />
+                          <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].HomePhone<br />
+                          <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].MobilePhone<br />
+                       </div>
+                  </div>
+              </div>
+              @{i++;}
+
+              @if( i < @Model.ContactList.Count())
+              { 
+                  contactName = ((String.IsNullOrWhiteSpace(@Model.ContactList[i].Initials) ? "" : @Model.ContactList[i].Initials + " ") + (String.IsNullOrWhiteSpace(@Model.ContactList[i].FirstName) ? "" : @Model.ContactList[i].FirstName + " ") + (String.IsNullOrWhiteSpace( @Model.ContactList[i].LastName) ? "" : @Model.ContactList[i].LastName + " "));
+                  <div class="col-md-4">
+                      <div class="list-group">
+                        @if (Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.Archived)
+                        {
+                            <h4 class="list-group-item-heading list-group-item" style="overflow:hidden">
+                                @contactName
+                                @Html.ActionLink("Unarchive", "Unarchive", new { id = @Model.ContactList[i].Id }, new { @class = "btn-sm btn-danger pull-right" })
+                            </h4>
+                        }
+                        else
+                        {
+                            <h4 class="list-group-item-heading">@Html.ActionLink( @contactName, "Edit", new { id = Model.ContactList[ i ].Id, page = Model.Page, campaignId = Model.CampaignId, query = @Model.Query, contactTab = @Model.ContactTab, tagId = @Model.TagId, publicationId = @Model.PublicationId, supporterType = @Model.SupporterType }, new { @class = "list-group-item" } )</h4>
+                        }
+
+                          <div class="list-group-item">
+                              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].EmailAddress<br />
+                              <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].HomePhone<br />
+                              <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].MobilePhone<br />
+                          </div>
+                      </div>
+                  </div>
+              }
+              @{i++;}
+
+            @if( i < @Model.ContactList.Count())
+            {
+              contactName = ((String.IsNullOrWhiteSpace(@Model.ContactList[i].Initials) ? "" : @Model.ContactList[i].Initials + " ") + (String.IsNullOrWhiteSpace(@Model.ContactList[i].FirstName) ? "" : @Model.ContactList[i].FirstName + " ") + (String.IsNullOrWhiteSpace( @Model.ContactList[i].LastName) ? "" : @Model.ContactList[i].LastName + " "));
+             <div class="col-md-4">
+                  <div class="list-group">
+                    @if (Model.ContactTab == (int)FarneFunds.Classes.Enums.ContactTab.Archived)
+                    {
+                        <h4 class="list-group-item-heading list-group-item" style="overflow:hidden">
+                            @contactName
+                            @Html.ActionLink("Unarchive", "Unarchive", new { id = @Model.ContactList[i].Id }, new { @class = "btn-sm btn-danger pull-right" })
+                        </h4>
+                    }
+                    else
+                    {
+                        <h4 class="list-group-item-heading">@Html.ActionLink( @contactName, "Edit", new { id = Model.ContactList[ i ].Id, page = Model.Page, campaignId = Model.CampaignId, query = @Model.Query, contactTab = @Model.ContactTab, tagId = @Model.TagId, publicationId = @Model.PublicationId, supporterType = @Model.SupporterType }, new { @class = "list-group-item" } )</h4>
+                    }
+
+                      <div class="list-group-item">
+                          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].EmailAddress<br />
+                          <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].HomePhone<br />
+                          <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].MobilePhone<br />
+                      </div>
+                  </div>
+              </div>
+            }
+        </div>
+    }
+
+
+<br />
+@if( Model.ContactList.PageCount > 1)
+{
+<text>Page @(Model.ContactList.PageCount < Model.ContactList.PageNumber ? 0 : Model.ContactList.PageNumber) of @Model.ContactList.PageCount
+
+@Html.PagedListPager(Model.ContactList, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, campaignId = Model.CampaignId, query = @Model.Query, contactTab = @Model.ContactTab, tagId = @Model.TagId, publicationId = @Model.PublicationId, supporterType = Model.SupporterType } ) )</text>
+}

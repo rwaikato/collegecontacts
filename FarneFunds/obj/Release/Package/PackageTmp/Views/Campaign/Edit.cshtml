@@ -1,0 +1,18 @@
+﻿@model FarneFunds.Models.CampaignDetails
+
+@{
+    ViewBag.Title = "Edit Campaign";
+}
+
+<div>
+    @Html.ActionLink("Create New Donation", "Create", "Donation", new { campaignId = Model.Id }, new { @class = "btn btn-success pull-right" })
+    <h2>Campaign Details</h2>
+</div>
+
+<div style="clear: both;"></div>
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#">Campaign Overview</a></li>
+    <li><a href="@Url.Action("Index", "Donation", new { campaignId = Model.Id })">Donations</a></li>
+</ul>
+
+@Html.EditorForModel()

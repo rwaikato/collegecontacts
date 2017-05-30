@@ -1,0 +1,31 @@
+﻿@model FarneFunds.Models.TagDetails
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor( m => m.Id)
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-1" })
+            <div class="col-md-11">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10" style="margin-top: 30px;">
+                <input type="submit" value="Save" class="btn btn-success" />
+                @if (Model.Id > 0 && Model.Id != 15 && Model.Id != 16 )
+                {
+                    @Html.ActionLink("Archive", "Archive", new { id = Model.Id }, new { @class = "btn btn-danger" })
+                }
+
+                @Html.ActionLink("Back to Tags", "Index", new { }, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+
+    </div>
+}

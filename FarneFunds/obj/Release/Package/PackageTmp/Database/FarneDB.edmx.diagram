@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="06378ecc60e74ca4a2542fa99465989d" Name="Diagram1" ZoomLevel="49">
+        <EntityTypeShape EntityType="FarneFundsModel.C__MigrationHistory" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarneFundsModel.AspNetRole" Width="1.5" PointX="3.375" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarneFundsModel.AspNetUserClaim" Width="1.5" PointX="5.625" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarneFundsModel.AspNetUserLogin" Width="1.5" PointX="7.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarneFundsModel.AspNetUser" Width="1.5" PointX="3.375" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="FarneFundsModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="FarneFundsModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="FarneFundsModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FarneFundsModel.Campaign" Width="1.5" PointX="3.375" PointY="10" />
+        <EntityTypeShape EntityType="FarneFundsModel.Donation" Width="1.5" PointX="3.375" PointY="6" />
+        <AssociationConnector Association="FarneFundsModel.FK_Donation_Campaign" />
+        <EntityTypeShape EntityType="FarneFundsModel.Country" Width="1.5" PointX="9.375" PointY="8.75" />
+        <EntityTypeShape EntityType="FarneFundsModel.Contact" Width="1.5" PointX="1.25" PointY="1" />
+        <AssociationConnector Association="FarneFundsModel.FK_Donation_Contact" />
+        <EntityTypeShape EntityType="FarneFundsModel.Tag" Width="1.5" PointX="14.875" PointY="10" />
+        <EntityTypeShape EntityType="FarneFundsModel.ContactTagMap" Width="1.5" PointX="6.5" PointY="9.25" />
+        <AssociationConnector Association="FarneFundsModel.FK_ContactTagMap_Contact1" />
+        <AssociationConnector Association="FarneFundsModel.FK_ContactTagMap_Tags" />
+        <EntityTypeShape EntityType="FarneFundsModel.RazorTemplate" Width="1.5" PointX="7.5" PointY="5.5" />
+        <EntityTypeShape EntityType="FarneFundsModel.ContactAudit" Width="1.5" PointX="10.625" PointY="4.375" />
+        <AssociationConnector Association="FarneFundsModel.FK_ContactAudit_ContactAudit" />
+        <AssociationConnector Association="FarneFundsModel.FK_ContactAudit_Contact" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

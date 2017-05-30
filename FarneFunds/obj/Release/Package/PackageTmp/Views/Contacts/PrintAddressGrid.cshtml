@@ -1,0 +1,211 @@
+﻿@model FarneFunds.Models.ContactAddressGridList
+
+<table>
+    @{var i = 0; var counter = 0;}
+    @while (i < Model.ContactList.Count())
+    {
+        counter = 0;
+        <tr style="font-size: 9.4px">
+            <td style="width: 90mm; height: 42mm; margin-right: 8mm; ">
+                <div>
+                    @Model.ContactList[i].Title @Model.ContactList[i].Initals @Model.ContactList[i].LastName<br />
+
+                    @if (Model.ContactList[i].StreetAddress != null)
+                    {
+                        @Model.ContactList[i].StreetAddress<br />
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+
+                    @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Town))
+                    {
+                        @Model.ContactList[i].Town
+
+                        if (!String.IsNullOrWhiteSpace(Model.ContactList[i].City))
+                        {
+                            <span>, </span>@Model.ContactList[i].City
+                            
+                        }
+                        <br />
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+
+                    @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Province))
+                    {
+                        @Model.ContactList[i].Province<br />
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+
+                    @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Country))
+                    {
+                        @Model.ContactList[i].Country
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+
+                    @Model.ContactList[i++].ZipCode
+
+                    @for (int c = 0; c < counter; c++)
+                    {
+                        <br />
+                    }
+
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </td>
+
+
+            @if (i < Model.ContactList.Count())
+            {
+                counter = 0;
+                
+                 <td style="width: 90mm; height: 42mm; margin-right: 8mm; ">
+                    <div>
+                        @Model.ContactList[i].Title @Model.ContactList[i].Initals @Model.ContactList[i].LastName<br />
+
+                        @if (Model.ContactList[i].StreetAddress != null)
+                        {
+                            @Model.ContactList[i].StreetAddress<br />
+                        }
+                        else
+                        {
+                            counter++;
+                        }
+                        
+                        @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Town))
+                        {
+                            @Model.ContactList[i].Town
+                            
+                            if (!String.IsNullOrWhiteSpace(Model.ContactList[i].City))
+                            {
+                                <span>, </span>@Model.ContactList[i].City
+                               
+                            }
+                             <br />
+                        }
+                        else
+                        {
+                            counter++;
+                        }
+
+                        @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Province))
+                        {
+                            @Model.ContactList[i].Province<br />
+                        }
+                        else
+                        {
+                            counter++;
+                        }
+
+                        @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Country))
+                        {
+                            @Model.ContactList[i].Country
+                        }
+                        else
+                        {
+                            counter++;
+                        }
+
+                        @Model.ContactList[i++].ZipCode
+
+                        @for (int c = 0; c < counter; c++)
+                        {
+                            <br />
+                        }
+
+                    <br />
+                    <br />
+                    <br />
+                    </div>
+                </td>
+            }
+            else
+            {
+                <td>&nbsp;</td>
+            }
+
+            @if (i < Model.ContactList.Count())
+            {
+                counter = 0;
+                <td style="width: 90mm; height: 42mm; margin-right: 8mm; ">
+                    <div>
+                        @Model.ContactList[i].Title @Model.ContactList[i].Initals @Model.ContactList[i].LastName<br />
+
+                        @if (Model.ContactList[i].StreetAddress != null)
+                        {
+                            @Model.ContactList[i].StreetAddress<br />
+                        }
+                        else
+                        {
+                            counter++;
+                        }
+                        @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Town))
+                        {
+                            @Model.ContactList[i].Town
+
+                            if (!String.IsNullOrWhiteSpace(Model.ContactList[i].City))
+                            {
+                                <span>, </span>@Model.ContactList[i].City
+                               
+                            }
+                             <br />
+                        }
+                        else
+                        {
+                            counter++;
+                        }
+
+                        @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Province))
+                        {
+                            @Model.ContactList[i].Province<br />
+                        }
+                        else
+                        {
+                            counter++;
+                        }
+
+                        @if (!String.IsNullOrWhiteSpace(Model.ContactList[i].Country))
+                        {
+                            @Model.ContactList[i].Country
+                        }
+                        else
+                        {
+                            counter++;
+                        }
+
+                        @Model.ContactList[i++].ZipCode
+
+                        @for (int c = 0; c < counter; c++)
+                        {
+                            <br />
+                        }
+                    <br />
+                    <br />
+                    <br />
+                    </div>
+                </td>
+            }
+            else
+            {
+                <td>&nbsp;</td>
+            }
+
+            
+        </tr>
+        
+    }
+
+</table>
+

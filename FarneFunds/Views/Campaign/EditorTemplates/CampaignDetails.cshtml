@@ -1,0 +1,221 @@
+﻿@model FarneFunds.Models.CampaignDetails
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Raised)
+    @Html.HiddenFor(model => model.Id)
+
+    
+    <div class="form-horizontal col-md-6">
+       <br />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateStart, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.DateStart, new { @class = "form-control date-picker", @Value = Model.DateStart.ToString("dd/MM/yyyy") })
+                @Html.ValidationMessageFor(model => model.DateStart)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateEnd, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @if(Model.DateEnd.HasValue)
+                { 
+                 @Html.TextBoxFor(model => model.DateEnd, new { @class = "form-control date-picker", @Value = Model.DateEnd.Value.ToString("dd/MM/yyyy") })
+                }
+                else
+                {
+                 @Html.TextBoxFor(model => model.DateEnd, new { @class = "form-control date-picker" })
+                }
+                @Html.ValidationMessageFor(model => model.DateEnd)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Goal, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.Goal, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Goal)
+            </div>
+        </div>
+
+        <div class="checkbox"> 
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                @Html.CheckBoxFor(model => model.PinToHomePage) @Html.LabelFor(model => model.PinToHomePage)
+            </div>
+        </div>
+
+@if( Model.Id > 0)
+{
+        <div class="checkbox"> 
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                @Html.CheckBoxFor(model => model.IsComplete) @Html.LabelFor(model => model.IsComplete)
+            </div>
+        </div>
+}
+
+        <br />
+        <br />
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-success" />
+                    @if (Model.Id > 0)
+                {
+                        @Html.ActionLink("Archive", "Archive", new { id = Model.Id }, new { @class = "btn btn-danger" })
+                }
+
+                    @Html.ActionLink("Back to Campaigns", "Index", null, new { @class = "btn btn-warning" })
+                </div>
+            </div>
+        </div>
+    
+    if( Model.Id > 0 && Model.Goal.HasValue)
+    { 
+     <div class="form-horizontal col-md-6">
+         <br />
+         <br />
+         <div id="container" style="min-width: 310px; max-width: 400px; height: 250px; margin: 0 auto"></div>
+     </div>
+    }
+    <div style="clear:both"></div>
+}
+
+@if (Model.Id > 0 && Model.Goal.HasValue)
+{
+<script>
+    $(function () {
+
+        $('#container').highcharts({
+
+            chart: {
+                type: 'gauge',
+                plotBackgroundColor: null,
+                plotBackgroundImage: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+
+            title: {
+                text: ''
+            },
+
+            pane: {
+                startAngle: -150,
+                endAngle: 150,
+                background: [{
+                    backgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, '#FFF'],
+                            [1, '#333']
+                        ]
+                    },
+                    borderWidth: 0,
+                    outerRadius: '109%'
+                }, {
+                    backgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, '#333'],
+                            [1, '#FFF']
+                        ]
+                    },
+                    borderWidth: 1,
+                    outerRadius: '107%'
+                }, {
+                    // default background
+                }, {
+                    backgroundColor: '#DDD',
+                    borderWidth: 0,
+                    outerRadius: '105%',
+                    innerRadius: '103%'
+                }]
+            },
+
+            // the value axis
+            yAxis: {
+                min: 0,
+                max: @Model.Goal.Value,
+
+                minorTickInterval: 'auto',
+                minorTickWidth: 1,
+                minorTickLength: 10,
+                minorTickPosition: 'inside',
+                minorTickColor: '#666',
+
+                tickPixelInterval: '@(Model.Goal.Value / 2)',
+                tickWidth: 2,
+                tickPosition: 'inside',
+                tickLength: 10,
+                tickColor: '#666',
+                labels: {
+                    step: 2,
+                    rotation: 'auto'
+                },
+                title: {
+                    text: 'Goal'
+                },
+                plotBands: [{
+                    from: 0,
+                    to: '@(Model.Goal.Value * (decimal)0.5)',
+                    color: '#55BF3B' // green
+                }, {
+                    from: '@(Model.Goal.Value * (decimal)0.5)',
+                    to: '@(Model.Goal.Value * (decimal)0.75)',
+                    color: '#DDDF0D' // yellow
+                }, {
+                    from: '@(Model.Goal.Value * (decimal)0.75)',
+                    to: '@(Model.Goal.Value)',
+                    color: '#DF5353' // red
+                }]
+            },
+
+            series: [{
+                name: 'Donations',
+                data: [@Model.Raised],
+                tooltip: {
+                    valueSuffix: ''
+                }
+            }]
+
+        },
+            // Add some life
+            function (chart) {
+               
+            });
+    });
+</script>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () { // will trigger when the document is ready
+        $('.date-picker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+

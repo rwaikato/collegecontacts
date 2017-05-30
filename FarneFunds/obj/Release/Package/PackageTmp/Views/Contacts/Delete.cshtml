@@ -1,0 +1,19 @@
+﻿@model FarneFunds.Models.ContactDetails
+
+@{
+    ViewBag.Title = "Delete Contact";
+}
+
+<h2>Delete Contact - @Model.FirstName @Model.LastName</h2>
+
+Are you sure you want to delete @Model.FirstName @Model.LastName, the contact will not be able to be accessed once deleted.
+
+@using( Html.BeginForm() )
+{
+    @Html.HiddenFor(x => x.Id);
+    @Html.HiddenFor(x => x.FirstName);
+    @Html.HiddenFor(x => x.LastName);
+    
+      <input type="submit" value="Delete" class="btn btn-success" />
+       @Html.ActionLink("Back to Contact", "Index", null, new { @class = "btn btn-warning" })
+}

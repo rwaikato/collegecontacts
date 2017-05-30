@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FarneFundsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="User_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+    </Key>
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Discriminator" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+    <NavigationProperty Name="ContactAudits" Relationship="FarneFundsModel.FK_ContactAudit_ContactAudit" FromRole="AspNetUser" ToRole="ContactAudit" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="FarneFundsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="Campaigns" EntityType="FarneFundsModel.Campaign" />
+    <EntitySet Name="Donations" EntityType="FarneFundsModel.Donation" />
+    <AssociationSet Name="FK_Donation_Campaign" Association="FarneFundsModel.FK_Donation_Campaign">
+      <End Role="Campaign" EntitySet="Campaigns" />
+      <End Role="Donation" EntitySet="Donations" />
+    </AssociationSet>
+    <EntitySet Name="Countries" EntityType="FarneFundsModel.Country" />
+    <EntitySet Name="Contacts" EntityType="FarneFundsModel.Contact" />
+    <AssociationSet Name="FK_Donation_Contact" Association="FarneFundsModel.FK_Donation_Contact">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="Donation" EntitySet="Donations" />
+    </AssociationSet>
+    <EntitySet Name="Tags" EntityType="FarneFundsModel.Tag" />
+    <EntitySet Name="ContactTagMaps" EntityType="FarneFundsModel.ContactTagMap" />
+    <AssociationSet Name="FK_ContactTagMap_Contact1" Association="FarneFundsModel.FK_ContactTagMap_Contact1">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="ContactTagMap" EntitySet="ContactTagMaps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ContactTagMap_Tags" Association="FarneFundsModel.FK_ContactTagMap_Tags">
+      <End Role="Tag" EntitySet="Tags" />
+      <End Role="ContactTagMap" EntitySet="ContactTagMaps" />
+    </AssociationSet>
+    <EntitySet Name="RazorTemplates" EntityType="FarneFundsModel.RazorTemplate" />
+    <EntitySet Name="ContactAudits" EntityType="FarneFundsModel.ContactAudit" />
+    <AssociationSet Name="FK_ContactAudit_ContactAudit" Association="FarneFundsModel.FK_ContactAudit_ContactAudit">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="ContactAudit" EntitySet="ContactAudits" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ContactAudit_Contact" Association="FarneFundsModel.FK_ContactAudit_Contact">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="ContactAudit" EntitySet="ContactAudits" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Campaign">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="DateStart" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DateEnd" Type="DateTime" Precision="3" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Goal" Type="Single" />
+    <NavigationProperty Name="Donations" Relationship="FarneFundsModel.FK_Donation_Campaign" FromRole="Campaign" ToRole="Donation" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="IsComplete" Type="Boolean" Nullable="false" />
+    <Property Name="PinToHomePage" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Donation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ContactId" Type="Int32" Nullable="false" />
+    <Property Name="CampaignId" Type="Int32" Nullable="false" />
+    <Property Name="DateDonated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Amount" Type="Single" Nullable="false" />
+    <NavigationProperty Name="Campaign" Relationship="FarneFundsModel.FK_Donation_Campaign" FromRole="Donation" ToRole="Campaign" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Contact" Relationship="FarneFundsModel.FK_Donation_Contact" FromRole="Donation" ToRole="Contact" />
+  </EntityType>
+  <Association Name="FK_Donation_Campaign">
+    <End Type="FarneFundsModel.Campaign" Role="Campaign" Multiplicity="1" />
+    <End Type="FarneFundsModel.Donation" Role="Donation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Campaign">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Donation">
+        <PropertyRef Name="CampaignId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Initials" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="PrefName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Street" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Town" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Province" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ZipCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="HomePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsOldBoy" Type="Boolean" Nullable="false" />
+    <Property Name="IsDonor" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Donations" Relationship="FarneFundsModel.FK_Donation_Contact" FromRole="Contact" ToRole="Donation" />
+    <NavigationProperty Name="ContactTagMaps" Relationship="FarneFundsModel.FK_ContactTagMap_Contact1" FromRole="Contact" ToRole="ContactTagMap" />
+    <Property Name="PartnerTitle" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="PartnerInitials" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="PartnerFirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="PartnerLastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="PartnerPrefName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="PartnerMobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PartnerEmail" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="DateOfBirth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Comments" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+    <Property Name="House" Type="Int32" />
+    <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="YearFrom" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+    <Property Name="YearTo" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+    <Property Name="Highways" Type="Boolean" Nullable="false" />
+    <Property Name="Chronicle" Type="Boolean" Nullable="false" />
+    <Property Name="RectorsNews" Type="Boolean" Nullable="false" />
+    <Property Name="IsSupporter" Type="Boolean" Nullable="false" />
+    <Property Name="Grandparent" Type="Boolean" Nullable="false" />
+    <Property Name="OldBoyParent" Type="Boolean" Nullable="false" />
+    <Property Name="FeederSchool" Type="Boolean" Nullable="false" />
+    <Property Name="Community" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="ContactAudits" Relationship="FarneFundsModel.FK_ContactAudit_Contact" FromRole="Contact" ToRole="ContactAudit" />
+  </EntityType>
+  <Association Name="FK_Donation_Contact">
+    <End Type="FarneFundsModel.Contact" Role="Contact" Multiplicity="1" />
+    <End Type="FarneFundsModel.Donation" Role="Donation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Donation">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="ContactTagMaps" Relationship="FarneFundsModel.FK_ContactTagMap_Tags" FromRole="Tag" ToRole="ContactTagMap" />
+  </EntityType>
+  <EntityType Name="ContactTagMap">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="ContactId" Type="Int32" Nullable="false" />
+    <Property Name="TagId" Type="Int32" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Contact" Relationship="FarneFundsModel.FK_ContactTagMap_Contact1" FromRole="ContactTagMap" ToRole="Contact" />
+    <NavigationProperty Name="Tag" Relationship="FarneFundsModel.FK_ContactTagMap_Tags" FromRole="ContactTagMap" ToRole="Tag" />
+  </EntityType>
+  <Association Name="FK_ContactTagMap_Contact1">
+    <End Type="FarneFundsModel.Contact" Role="Contact" Multiplicity="1" />
+    <End Type="FarneFundsModel.ContactTagMap" Role="ContactTagMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactTagMap">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ContactTagMap_Tags">
+    <End Type="FarneFundsModel.Tag" Role="Tag" Multiplicity="1" />
+    <End Type="FarneFundsModel.ContactTagMap" Role="ContactTagMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tag">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactTagMap">
+        <PropertyRef Name="TagId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="RazorTemplate">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Template" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ContactAudit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <Property Name="DateArchived" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ContactId" Type="Int32" Nullable="false" />
+    <Property Name="DateUnarchived" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="FarneFundsModel.FK_ContactAudit_ContactAudit" FromRole="ContactAudit" ToRole="AspNetUser" />
+    <NavigationProperty Name="Contact" Relationship="FarneFundsModel.FK_ContactAudit_Contact" FromRole="ContactAudit" ToRole="Contact" />
+  </EntityType>
+  <Association Name="FK_ContactAudit_ContactAudit">
+    <End Type="FarneFundsModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="FarneFundsModel.ContactAudit" Role="ContactAudit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactAudit">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ContactAudit_Contact">
+    <End Type="FarneFundsModel.Contact" Role="Contact" Multiplicity="1" />
+    <End Type="FarneFundsModel.ContactAudit" Role="ContactAudit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactAudit">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

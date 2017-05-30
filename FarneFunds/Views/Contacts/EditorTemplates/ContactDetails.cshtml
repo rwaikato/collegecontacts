@@ -1,0 +1,418 @@
+﻿@model FarneFunds.Models.ContactDetails
+
+<script type="text/javascript">
+    var toggleOpen = true;
+
+    $(document).ready(function(){
+        $('#AdvanceTagsButton').click(function () {
+            ToggleAdvancedTags();
+        });
+
+        $('#clearPartnerDetails').click(function () {
+            ClearPartnerDetails();
+        });
+
+        $('#IsSupporter').on("change", function () {
+            ToggleSupporterTypes();
+        });
+
+
+        ToggleSupporterTypes();
+        $('#AdvanceTags').hide();
+    });
+
+    function ToggleSupporterTypes()
+    {
+        if ($('#IsSupporter').is(":checked")) {
+            $('#supporterTypes').show();
+        }
+        else {
+            $('#supporterTypes').hide();
+        }
+    }
+
+    function ToggleAdvancedTags()
+    {
+        $('#AdvanceTags').slideToggle();
+
+        toggleOpen = !toggleOpen;
+
+        if (toggleOpen) {
+            $('#AdvanceTagsButton').text("Show Advanced Tags")
+        }
+        else {
+            $('#AdvanceTagsButton').text("Hide Advanced Tags")
+        }
+    }
+
+    function ClearPartnerDetails()
+    {
+        $('#PartnerTitle').val("");
+        $('#PartnerFirstName').val("");
+        $('#PartnerLastName').val("");
+        $('#PartnerPreferredName').val("");
+    }
+
+
+</script>
+
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor( model => model.Id )
+    @Html.HiddenFor( model => model.SearchOptions.CampaignId )
+    @Html.HiddenFor( model => model.SearchOptions.ContactTab )
+    @Html.HiddenFor( model => model.SearchOptions.Page )
+    @Html.HiddenFor( model => model.SearchOptions.Query )
+    @Html.HiddenFor( model => model.SearchOptions.TagId )
+    @Html.HiddenFor( model => model.SearchOptions.PublicationId )
+    
+<div style="clear:both"></div>
+    <div class="form-horizontal col-md-6">
+       
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Initials, new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Initials, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Initials)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PreferredName, new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+               
+                    @Html.TextBoxFor(model => model.PreferredName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PreferredName)
+                </div>
+           
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailAddress, new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                <div class="input-group">
+                    <div class="input-group-addon">@@</div>
+                    @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.EmailAddress)
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MobilePhone, new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.MobilePhone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MobilePhone)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HomePhone, new { @class = "control-label col-md-3" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.HomePhone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.HomePhone)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor( model => model.Comments, new { @class = "control-label col-md-3" } )
+            <div class="col-md-6">
+                @Html.TextAreaFor( model => model.Comments, new { @class = "form-control", @style = "height: 150px" } )
+                @Html.ValidationMessageFor( model => model.Comments )
+            </div>
+        </div>
+
+     </div>
+        <div class="form-horizontal col-md-6">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Street, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Street, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Street)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Town, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Town, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Town)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.City)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Province, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Province, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Province)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Country, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Country)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ZipCode, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ZipCode)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor( model => model.Year, new { @class = "control-label col-md-3" } )
+                <div class="col-md-6">
+                    @Html.HiddenFor( model => model.Year )
+                    @Html.TextBox( "readonlyYear", Model.Year, new { @class = "form-control", disabled="disabled" } )
+                    @Html.ValidationMessageFor( model => model.Year )
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor( model => model.FromYear, new { @class = "control-label col-md-3" } )
+                <div class="col-md-6">
+                    @Html.TextBoxFor( model => model.FromYear, new { @class = "form-control" } )
+                    @Html.ValidationMessageFor( model => model.FromYear )
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor( model => model.ToYear, new { @class = "control-label col-md-3" } )
+                <div class="col-md-6">
+                    @Html.TextBoxFor( model => model.ToYear, new { @class = "form-control" } )
+                    @Html.ValidationMessageFor( model => model.ToYear )
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor( model => model.DateOfirth, new { @class = "control-label col-md-3" } )
+                <div class="col-md-6">
+                    @Html.TextBoxFor( model => model.DateOfirth, new { @class = "form-control" } )
+                    @Html.ValidationMessageFor( model => model.DateOfirth )
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor( model => model.HouseId, new { @class = "control-label col-md-3" } )
+                <div class="col-md-6">
+                    @Html.DropDownListFor( model => model.HouseId, Model.HouseSelectList, "< Select >", new { @class = "form-control" } )
+                    @Html.ValidationMessageFor( model => model.HouseId )
+                </div>
+            </div>
+        </div>
+
+    <div class="clearfix"></div>
+    <hr />
+    
+    <h2>Partner Details</h2>
+    <div style="padding: 15px;">
+        <table>
+                <tr>
+                    <td class="checkbox col-md-2">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PartnerTitle, new { @class = "control-label" })
+                            <div>
+                                @Html.TextBoxFor(model => model.PartnerTitle, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PartnerTitle)
+                            </div>
+                        </div>
+                    </td>
+                    <td class="checkbox col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PartnerFirstName, new { @class = "control-label" })
+                            <div>
+                                @Html.TextBoxFor(model => model.PartnerFirstName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PartnerFirstName)
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="checkbox col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PartnerLastName, new { @class = "control-label" })
+                            <div>
+                                @Html.TextBoxFor(model => model.PartnerLastName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PartnerLastName)
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="checkbox col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PartnerPreferredName, new { @class = "control-label" })
+                            <div>
+                                @Html.TextBoxFor(model => model.PartnerPreferredName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PartnerPreferredName)
+                            </div>
+                        </div>
+                    </td>
+                    <td class="checkbox col-md-1">
+                        <a onclick=" ClearPartnerDetails(); return false;" href="#" class="btn btn-default" >Clear</a>
+                    </td>
+                </tr>
+        </table>
+    </div>
+    <hr />
+    <h2>Contact Tags</h2>
+    <table>
+        <tr>
+            <td class="checkbox col-md-3" style="width: 250px;">
+                @Html.CheckBoxFor(model => model.IsOldBoy) Old Boy
+            </td>
+            <td class="checkbox col-md-3" style="width: 250px;">
+                @Html.CheckBoxFor(model => model.IsDonor) Donor
+            </td>
+            <td class="checkbox col-md-3" style="width: 250px;">
+                @Html.CheckBoxFor( model => model.IsSupporter ) Supporter
+            </td>
+            <td class="checkbox col-md-3" style="width: 250px;">
+
+            </td>
+        </tr>
+        <tr id="supporterTypes">
+            <td class="checkbox col-md-3" style="width: 250px;">
+                @Html.CheckBoxFor( model => model.Grandparent ) Grandparent
+            </td>
+            <td class="checkbox col-md-3" style="width: 250px;">
+                @Html.CheckBoxFor( model => model.OldBoyParent ) Old Boy Parent
+            </td>
+            <td class="checkbox col-md-3" style="width: 250px;">
+                @Html.CheckBoxFor( model => model.FeederSchool ) Feeder School
+            </td>
+            <td class="checkbox col-md-3" style="width: 250px;">
+                @Html.CheckBoxFor( model => model.Community ) Community
+            </td>
+        </tr>
+    </table>
+   
+        if ( Model.TagCheckBoxes != null )
+        { 
+        <table>
+
+            @for (int i = 0; i < Model.TagCheckBoxes.Count(); i++)
+            {
+                <tr>
+                    <td class="checkbox col-md-3" style="width: 250px;">
+                        @Html.HiddenFor(model => model.TagCheckBoxes[i].Id)
+                        @Html.HiddenFor(model => model.TagCheckBoxes[i].Name)
+                        @Html.CheckBoxFor(model => model.TagCheckBoxes[i].IsSelected) @Html.DisplayFor(model => model.TagCheckBoxes[i].Name)
+                    </td>
+
+                    @{ i++; }
+
+                    @if (i < Model.TagCheckBoxes.Count())
+                    {
+                        <td class="checkbox col-md-3" style="width: 250px;">
+                            @Html.HiddenFor(model => model.TagCheckBoxes[i].Id)
+                            @Html.HiddenFor(model => model.TagCheckBoxes[i].Name)
+                            @Html.CheckBoxFor(model => model.TagCheckBoxes[i].IsSelected) @Html.DisplayFor(model => model.TagCheckBoxes[i].Name)
+                        </td>
+                    }
+
+                    @{ i++; }
+
+                    @if (i < Model.TagCheckBoxes.Count())
+                    {
+                        <td class="checkbox col-md-3" style="width: 250px;">
+                            @Html.HiddenFor(model => model.TagCheckBoxes[i].Id)
+                            @Html.HiddenFor(model => model.TagCheckBoxes[i].Name)
+                            @Html.CheckBoxFor(model => model.TagCheckBoxes[i].IsSelected) @Html.DisplayFor(model => model.TagCheckBoxes[i].Name)
+                        </td>
+                    }
+
+                    @{ i++; }
+
+                    @if (i < Model.TagCheckBoxes.Count())
+                    {
+                        <td class="checkbox col-md-3" style="width: 250px;">
+                            @Html.HiddenFor(model => model.TagCheckBoxes[i].Id)
+                            @Html.HiddenFor(model => model.TagCheckBoxes[i].Name)
+                            @Html.CheckBoxFor(model => model.TagCheckBoxes[i].IsSelected) @Html.DisplayFor(model => model.TagCheckBoxes[i].Name)
+                        </td>
+                    }
+                </tr>
+            }
+
+        </table>
+        }
+        
+        <hr />
+        <h2>Publications</h2>
+        <table>
+            <tr>
+                <td class="checkbox col-md-3" style="width: 250px;">
+                    @Html.CheckBoxFor(model => model.Highways) Highways
+                </td>
+                <td class="checkbox col-md-3" style="width: 250px;">
+                    @Html.CheckBoxFor(model => model.RectorsNews) Rector’s News
+                </td>
+                <td class="checkbox col-md-3" style="width: 250px;">
+                    @Html.CheckBoxFor( model => model.Chronicle ) Chronicle
+                </td>
+                <td class="checkbox col-md-3" style="width: 250px;">
+
+                </td>
+            </tr>
+        </table>
+    
+     <hr />
+
+        <div class="form-group">
+            <div class="col-md-10" style="margin-top: 30px;">
+                <input type="submit" value="Save" class="btn btn-success" />
+                @if (Model.Id > 0)
+                {
+                    @Html.ActionLink("Archive", "Archive", new { id = Model.Id }, new { @class = "btn btn-danger" })
+                }
+
+                @Html.ActionLink("Back to Contacts", "Index", @Model.SearchOptions, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+
+        <div style="clear:both"></div>
+}
+

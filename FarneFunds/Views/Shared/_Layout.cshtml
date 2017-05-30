@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Farne Funds</title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/all.css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                @if (Request.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav">
+                        <li class="@(ViewBag.SelectedTab == (int)FarneFunds.Classes.Enums.Controller.Home ? "active" : "")">
+                            <a href="@Url.Action("Index", "Home", new { })">
+                                <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Home
+</a>
+                        </li>
+                        <li class="@(ViewBag.SelectedTab == (int)FarneFunds.Classes.Enums.Controller.Contact ? "active" : "")">
+                            <a href="@Url.Action("Index", "Contacts", new { })">
+                                <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contacts
+</a>
+                        </li>
+                        <li class="@(ViewBag.SelectedTab == (int)FarneFunds.Classes.Enums.Controller.Campaign ? "active" : "")">
+                            <a href="@Url.Action("Index", "Campaign", new { })">
+                                <span class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;Campaigns
+                            </a>
+                        </li>
+                    </ul>
+                }
+
+
+                @Html.Partial("_LoginPartial")
+
+            </div>
+        </div>
+        <div>
+
+        </div>
+    </div>
+    <div style="clear: both"></div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Farne Funds</p>
+        </footer>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

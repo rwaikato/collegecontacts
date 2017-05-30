@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NI.Data</id>
+    <version>2.0.2.0</version>
+    <title>NI.Data</title>
+    <authors>Vitalii Fedorchenko</authors>
+    <owners>Vitalii Fedorchenko</owners>
+    <projectUrl>http://www.nrecosite.com/dalc_net.aspx</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Fast and flexible DB-independent data layer for .NET. Supports abstract queries (RelEx), SQL-dataviews, triggers and query hooks.</description>
+    <copyright>Copyright 2004-2012 NewtonIdeas, v2 2013-2014 Vitalii Fedorchenko</copyright>
+    <tags>DAL DataBase ADO.NET Data</tags>
+  </metadata>
+</package>

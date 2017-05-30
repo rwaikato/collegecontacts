@@ -1,0 +1,78 @@
+﻿@model FarneFunds.Models.CampaignDetailsList
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.HiddenFor( h=>h.Status)
+        @Html.ActionLink("Create New Campaign", "Create", null, new { @class = "btn btn-success" })
+
+        <input type="submit" value="Search" class="btn btn-primary pull-right" />
+        @Html.TextBoxFor(m => m.Query, new { @class = "form-control pull-right", @placeholder = "Search Campaign Names", @style = "margin-right: 5px" })
+    </div>
+}
+
+<div style="clear: both; padding: 10px;"></div>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="@(Model.Status == (int)FarneFunds.Classes.Enums.CampaignStatus.Current ? "active" : "")">@Html.ActionLink("Current", "Index", new{ query = @Model.Query, status = (int)FarneFunds.Classes.Enums.CampaignStatus.Current })</li>
+    <li class="@(Model.Status == (int)FarneFunds.Classes.Enums.CampaignStatus.Expired ? "active" : "")">@Html.ActionLink("Expired", "Index", new { query = @Model.Query, status = (int)FarneFunds.Classes.Enums.CampaignStatus.Expired })</li>
+    <li class="@(Model.Status == (int)FarneFunds.Classes.Enums.CampaignStatus.Completed ? "active" : "")">@Html.ActionLink("Completed", "Index", new { query = @Model.Query, status = (int)FarneFunds.Classes.Enums.CampaignStatus.Completed })</li>
+    <li class="@(Model.Status == (int)FarneFunds.Classes.Enums.CampaignStatus.Archived ? "active" : "")">@Html.ActionLink("Archived", "Index", new { query = @Model.Query, status = (int)FarneFunds.Classes.Enums.CampaignStatus.Archived })</li>
+</ul>
+
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Goal</th>
+            <th>Raised</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            @if (Model.Status == (int)FarneFunds.Classes.Enums.CampaignStatus.Archived)
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.CampaignList)
+    {
+        <tr>
+            <td>
+                @if (Model.Status != (int)FarneFunds.Classes.Enums.CampaignStatus.Archived)
+                { 
+                    @Html.ActionLink(item.Name, "Edit", new { id = item.Id })
+                }
+                else
+                {
+                    @item.Name
+                }
+            </td>
+            <td>
+                @(item.Goal.HasValue ? item.Goal.Value.ToString("C") : "-")
+            </td>
+            <td>
+                @item.Raised.ToString("C")
+            </td>
+            <td>
+                @item.DateStart.ToShortDateString()
+            </td>
+            <td>
+                @(item.DateEnd.HasValue ? item.DateEnd.Value.ToShortDateString() : "-")  
+            </td>
+                @if (Model.Status == (int)FarneFunds.Classes.Enums.CampaignStatus.Archived)
+                {
+                    <td>
+                        @Html.ActionLink("Un-Archive", "Unarchive", new { id = @item.Id }, new { @class = "btn btn-danger pull-right" })
+                    </td>
+                }
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,52 @@
+﻿@model FarneFunds.Models.ContactAuditHistoryList
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Contact Audit";
+}
+
+<ul class="nav nav-tabs" role="tablist">
+    <li>@Html.ActionLink( "All Contacts", "Index", new { contactTab = (int)FarneFunds.Classes.Enums.ContactTab.All } )</li>
+    <li>@Html.ActionLink( "Old Boys", "Index", new { contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.OldBoy } )</li>
+    <li>@Html.ActionLink( "Donors", "Index", new { contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.Donor } )</li>
+    <li>@Html.ActionLink( "Supporters", "Index", new { contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.Support } )</li>
+    <li>@Html.ActionLink( "Set Province", "Index", new { contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.SetProvince } )</li>
+    <li>@Html.ActionLink( "Archived", "Index", new { contactTab = ( int )FarneFunds.Classes.Enums.ContactTab.Archived } )</li>
+    <li class="active">@Html.ActionLink( "History", "Audit" )</li>
+</ul>
+
+<table class="table">
+    <tr>
+        <th>
+            Contact
+        </th>
+        <th>
+            User
+        </th>
+        <th>
+            Action
+        </th>
+        <th>
+            Date
+        </th>
+    </tr>
+
+    @foreach (var item in Model.AuditHistoryList ) 
+    {
+        <tr>
+            <td>
+               @item.ContactName
+            </td>
+            <td>
+                @item.UserName
+            </td>
+            <td>
+               @item.Action
+            </td>
+            <td>
+                @item.DateAction.ToShortDateString( )
+            </td>
+        </tr>
+    }
+</table>
