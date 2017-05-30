@@ -148,7 +148,7 @@ namespace FarneFunds.Controllers
 			filterContacts( campaignId, query, ref contactTab, tagId, ref contacts, publicationId, supporterType );
             int pageNumber = (page ?? 1);
 
-			ContactDetailsList vm = new ContactDetailsList( contacts.OrderBy( o => o.LastName ).ToList( ), campaignId, query, Dal, page, contactTab, tagId, publicationId, supporterType );
+            ContactDetailsList vm = new ContactDetailsList( contacts, campaignId, query, Dal, page, contactTab, tagId, publicationId, supporterType );
             ViewBag.SelectedTab = (int)Enums.Controller.Contact;
 
             return View(vm);

@@ -265,7 +265,7 @@ namespace FarneFunds.Models
 
 	public class ContactDetailsList
 	{
-		public IPagedList<ContactDetails> ContactList { get; private set; }
+        public IPagedList<Contact> ContactList { get; private set; }
 		public int? CampaignId { get; set; }
 		public SelectList CampaignSelectList { get; set; }
 		public string Query { get; set; }
@@ -280,19 +280,20 @@ namespace FarneFunds.Models
 		public int? SupporterType { get; set; }
 		public SelectList SupporterTypes { get; set; }
 
-		public ContactDetailsList( ) { }
+		public ContactDetailsList( ) 
+        {
+ 
+        }
 
-		public ContactDetailsList( List<Contact> contacts, int? campaignId, string query, FarneFundsEntities Dal, int? page, int? contactTab, int? tagId, int? publicationId, int? supporterType )
+		public ContactDetailsList( IQueryable<Contact> contacts, int? campaignId, string query, FarneFundsEntities Dal, int? page, int? contactTab, int? tagId, int? publicationId, int? supporterType )
+            : this( )
 		{
 			int pageNumber = ( page ?? 1 );
 			Page = pageNumber;
 
 			ContactTab = contactTab;
-			var contactDetailsList = new List<ContactDetails>( );
 			var tags = Dal.Tags.Where( t => t.IsActive ).OrderBy( n => n.Name ).ToList( );
-			contactDetailsList.AddRange( contacts.Select( s => new ContactDetails( s, Dal, tags ) ) );
-
-			ContactList = contactDetailsList.ToPagedList( pageNumber, 21 );
+            ContactList = contacts.OrderBy( o => o.LastName ).ToPagedList( pageNumber, 21 );
 
 			CampaignId = campaignId;
 			CampaignSelectList = SelectLists.CampaignSelectList( campaignId, Dal );
