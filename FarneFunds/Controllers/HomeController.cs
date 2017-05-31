@@ -21,6 +21,11 @@ namespace FarneFunds.Controllers
             var Dons = Dal.Donations.Include(i => i.Contact).Where(d => d.Contact.IsActive && d.IsActive && d.Campaign.IsActive).OrderByDescending(o => o.DateCreated).Take(10).ToList();
             var Tags = Dal.Tags.Where(t => t.IsActive).ToList();
 
+            var pastYear = DateTime.Now.AddYears( -1 );
+            vm.DonationCount = (decimal)Dal.Donations.Where( d => d.IsActive && d.Campaign.IsActive && d.Contact.IsActive && d.DateDonated > pastYear ).Select( s => s.Amount ).ToList( ).Sum( s => s );
+            vm.ContactCount = Dal.Contacts.Where( c => c.IsActive ).Count( );
+            vm.CampaignCount = Dal.Campaigns.Where( c => c.IsActive && !c.IsComplete ).Count( );
+
             vm.CampaignList.AddRange(Camps.Select(s => new CampaignDetails(s, Dal)));
             vm.ContactList.AddRange(Cons.Select(s => new ContactDetails(s, Dal, Tags)));
             vm.DontaionList.AddRange(Dons.Select(s => new DonationDetails(s)));

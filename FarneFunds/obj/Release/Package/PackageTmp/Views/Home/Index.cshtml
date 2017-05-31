@@ -4,23 +4,132 @@
     ViewBag.Title = "Lindisfarne College Foundation";
 }
 
-<div class="container">
-    <div class="col-md-12 col-lg-12 jumbotron">
-        <h1>Lindisfarne College Foundation</h1>
-        <p>Keep track of Lindisfarne College campaigns and donations.</p>
+
+   <div class="alert alert-info" style="padding: 30px">
+    <h2>Keep track of Lindisfarne College contacts, campaigns and donations.</h2>
+</div>
+
+<div class="">
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">@Model.ContactCount</div>
+                            <div>Active Contacts</div>
+                        </div>
+                    </div>
+                </div>
+                <a href ="@Url.Action("Index", "Contacts", null )">
+                <div class="panel-footer">
+                    <span class="pull-left">View Contacts</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+                </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-book fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">@Model.CampaignCount</div>
+                            <div>Current Campaigns</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index", "Campaign", null )">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Campaigns</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-money fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">@Model.DonationCount.ToString( "c" )</div>
+                            <div>Donations from the past 12 months</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index", "Campaign", null )">
+                    <div class="panel-footer">
+                        <span class="pull-left">Add donation to campaign</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 
     <div class="row">
-        <div class="col-md-4">
-            <div class="list-group">
-                <a href="#" class="list-group-item active">
-                    Recent Campaigns
-                </a>
-                @if (Model.CampaignList.Any())
-                {
-                    foreach (var item in Model.CampaignList)
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            Recent Contacts
+                        </div>
+                    </div>
+                </div>
+              
+                    @if ( Model.ContactList.Any( ) )
                     {
-                        @Html.ActionLink(item.Name, "Edit", "Campaign", new { id = @item.Id }, new { @class = "list-group-item" })
+                        foreach ( var item in Model.ContactList )
+                        {
+                            <a href="@Url.Action( "Edit", "Contacts", new { id = @item.Id } )">
+                                <div class="panel-footer">
+                                    <span class="pull-left">@item.LastName</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <span class="list-group-item">No Current Contacts</span>
+                    }
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            Recent Campaigns
+                        </div>
+                    </div>
+                </div>
+
+                @if ( Model.CampaignList.Any( ) )
+                {
+                    foreach ( var item in Model.CampaignList )
+                    {
+                        <a href="@Url.Action( "Edit", "Campaign", new { id = @item.Id } )">
+                            <div class="panel-footer">
+                                <span class="pull-left">@item.Name</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
                     }
                 }
                 else
@@ -29,39 +138,32 @@
                 }
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="list-group">
-                <a href="#" class="list-group-item active">
-                    Recent Donations
-                </a>
-                @if (Model.DontaionList.Any())
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            Recent Donations
+                        </div>
+                    </div>
+                </div>
+
+                @if ( Model.DontaionList.Any( ) )
                 {
-                    foreach (var item in Model.DontaionList)
+                    foreach ( var item in Model.DontaionList )
                     {
-                        @Html.ActionLink(item.ContactName + " - " + item.Amount.ToString("n2"), "Edit", "Donation", new { id = @item.Id, campaignId = @item.CampaignId }, new { @class = "list-group-item" })
+                        <a href="@Url.Action(  "Edit", "Donation", new { id = @item.Id, campaignId = @item.CampaignId } )">
+                            <div class="panel-footer">
+                                <span class="pull-left">@item.ContactName - @item.Amount.ToString("c")</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
                     }
                 }
                 else
                 {
-                    <span class="list-group-item">No Current Donations</span>
-                }
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="list-group">
-                <a href="#" class="list-group-item active">
-                    Recent Contacts
-                </a>
-                @if (Model.DontaionList.Any())
-                {
-                    foreach (var item in Model.ContactList)
-                    {
-                        @Html.ActionLink(item.LastName, "Edit", "Contacts", new { id = @item.Id }, new { @class = "list-group-item" })
-                    }
-                }
-                else
-                {
-                    <span class="list-group-item">No Current Contacts</span>
+                    <span class="list-group-item">No Current Campaigns</span>
                 }
             </div>
         </div>

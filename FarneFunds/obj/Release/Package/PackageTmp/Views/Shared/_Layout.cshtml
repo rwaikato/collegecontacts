@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/Content/css")
+    @Styles.Render( "~/Content/font-awesome-4.7.0/css/font-awesome.css" )
     @Styles.Render("~/Content/themes/base/all.css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jqueryui")
@@ -18,7 +19,20 @@
 
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top">
+    @if ( Request.IsAuthenticated )
+    {
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <h3 style="color: white;margin: 12px 0 5px">Lindisfarne College Foundation</h3>
+                </div>
+                <div class="nav navbar-nav navbar-right" style="padding-top: 14px;">
+                    <i style="color: white">Logged in as @User.Identity.Name</i>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="navbar navbar-inverse navbar-fixed-top @( Request.IsAuthenticated ? "second-navbar" : "" )">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -28,18 +42,18 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse">
-                @if (Request.IsAuthenticated)
+                @if ( Request.IsAuthenticated )
                 {
                     <ul class="nav navbar-nav">
                         <li class="@(ViewBag.SelectedTab == (int)FarneFunds.Classes.Enums.Controller.Home ? "active" : "")">
                             <a href="@Url.Action("Index", "Home", new { })">
                                 <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Home
-</a>
+                            </a>
                         </li>
                         <li class="@(ViewBag.SelectedTab == (int)FarneFunds.Classes.Enums.Controller.Contact ? "active" : "")">
                             <a href="@Url.Action("Index", "Contacts", new { })">
                                 <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contacts
-</a>
+                            </a>
                         </li>
                         <li class="@(ViewBag.SelectedTab == (int)FarneFunds.Classes.Enums.Controller.Campaign ? "active" : "")">
                             <a href="@Url.Action("Index", "Campaign", new { })">
@@ -50,20 +64,24 @@
                 }
 
 
-                @Html.Partial("_LoginPartial")
+                @Html.Partial( "_LoginPartial" )
 
             </div>
         </div>
     </div>
+
+    
+   
     <div style="clear: both"></div>
-    <div class="container body-content">
-        @RenderBody()
+    <div class="container">
+        @RenderBody( )
+    </div>
         <hr />
+    <div class="container">
         <footer>
             <p>&copy; @DateTime.Now.Year - Farne Funds</p>
         </footer>
     </div>
-
 
     @RenderSection("scripts", required: false)
 </body>

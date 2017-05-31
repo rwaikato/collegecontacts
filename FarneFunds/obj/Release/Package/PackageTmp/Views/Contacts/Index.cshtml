@@ -8,31 +8,17 @@
 
 @using ( Html.BeginForm( ) )
 {
-
+    @Html.HiddenFor( model => model.ContactTab )
     <div class="clearfix">
-        @Html.HiddenFor( model => model.ContactTab )
-        @Html.ActionLink( "New Contact", "Create", null, new { @class = "btn btn-success", style = "margin-left: 1px" } )
-        @Html.ActionLink( "Import Contacts", "UploadNewContacts", null, new { @class = "btn btn-success", style = "margin-left: 1px" } )
-        @Html.ActionLink( "Address Labels", "GetAddressGrid", new { campaignId = Model.CampaignId, query = Model.Query, tagId = Model.TagId, contactTab = Model.ContactTab, publicationId = Model.PublicationId, supporterType = Model.SupporterType }, new { @class = "btn btn-warning", style = "margin-left: 1px", @target = "_blank" } )
-        @Html.ActionLink( "Excel Export", "ExportToExcel", new { campaignId = Model.CampaignId, query = Model.Query, tagId = Model.TagId, contactTab = Model.ContactTab, publicationId = Model.PublicationId, supporterType = Model.SupporterType }, new { @class = "btn btn-warning", style = "margin-left: 1px", @target = "_blank" } )
-        @Html.ActionLink( "Tags", "Index", "Tag", new { }, new { @class = "btn btn-primary", style = "margin-left: 1px" } )
+        @Html.ActionLink( "PDF Address Labels", "GetAddressGrid", new { campaignId = Model.CampaignId, query = Model.Query, tagId = Model.TagId, contactTab = Model.ContactTab, publicationId = Model.PublicationId, supporterType = Model.SupporterType }, new { @class = "btn btn-warning", style = "margin-left: 1px", @target = "_blank" } )
+        @Html.ActionLink( "Excel Address Export", "ExportToExcel", new { campaignId = Model.CampaignId, query = Model.Query, tagId = Model.TagId, contactTab = Model.ContactTab, publicationId = Model.PublicationId, supporterType = Model.SupporterType }, new { @class = "btn btn-warning", style = "margin-left: 1px", @target = "_blank" } )
 
-        <input type="submit" value="Search" class="btn btn-primary pull-right" />
-        @Html.TextBoxFor( m => m.Query, new { @class = "form-control  pull-right", @placeholder = "Search Contact Names", @style = "margin-right: 5px" } )
+        <div class="pull-right">
+            @Html.ActionLink( "Tags", "Index", "Tag", new { }, new { @class = "btn btn-primary", style = "margin-left: 1px" } )
+            @Html.ActionLink( "Import Contacts", "UploadNewContacts", null, new { @class = "btn btn-info", style = "margin-left: 1px" } )
+            @Html.ActionLink( "New Contact", "Create", null, new { @class = "btn btn-success", style = "margin-left: 1px" } )
+        </div>
     </div>
-    <div style="clear:both"></div>
-    <div style="margin-top: 5px">
-        @Html.DropDownListFor( m => m.CampaignId, Model.CampaignSelectList, "Filter by Campaign", new { @class = "form-control  pull-right", @style = "max-width: 180px; margin-right: 5px" } )
-        @Html.DropDownListFor( m => m.TagId, Model.TagSelectList, "Filter by Tag", new { @class = "form-control  pull-right", @style = "max-width: 140px; margin-right: 5px" } )
-        @Html.DropDownListFor( m => m.PublicationId, Model.Publications, "Filter by Publications", new { @class = "form-control  pull-right", @style = "max-width: 200px; margin-right: 5px" } )
-
-        @if ( Model.ContactTab == ( int )FarneFunds.Classes.Enums.ContactTab.Support )
-        {
-            @Html.DropDownListFor( m => m.SupporterType, Model.SupporterTypes, "Filter by Supporter Type", new { @class = "form-control  pull-right", @style = "max-width: 220px; margin-right: 5px" } )
-        }
-    </div>
-
-
 
 <div style="clear: both; padding: 10px;"></div>
 
@@ -46,8 +32,22 @@
     <li>@Html.ActionLink( "History", "Audit" )</li>
 </ul>
     
-<br />
+<div style="margin: 10px 0 10px">
+    <input type="submit" value="Search" class="btn btn-primary pull-right" />
+    @Html.TextBoxFor( m => m.Query, new { @class = "form-control  pull-right", @placeholder = "Search Contact Names", @style = "margin-right: 5px" } )
+
+    @Html.DropDownListFor( m => m.CampaignId, Model.CampaignSelectList, "Filter by Campaign", new { @class = "form-control  pull-right", @style = "max-width: 180px; margin-right: 5px" } )
+    @Html.DropDownListFor( m => m.TagId, Model.TagSelectList, "Filter by Tag", new { @class = "form-control  pull-right", @style = "max-width: 140px; margin-right: 5px" } )
+    @Html.DropDownListFor( m => m.PublicationId, Model.Publications, "Filter by Publications", new { @class = "form-control  pull-right", @style = "max-width: 200px; margin-right: 5px" } )
+
+    @if ( Model.ContactTab == ( int )FarneFunds.Classes.Enums.ContactTab.Support )
+    {
+        @Html.DropDownListFor( m => m.SupporterType, Model.SupporterTypes, "Filter by Supporter Type", new { @class = "form-control  pull-right", @style = "max-width: 220px; margin-right: 5px" } )
+    }
     
+   
+</div>
+    <div style="clear: both; padding: 10px;"></div>
 }
 
 
@@ -75,7 +75,7 @@
                     }
 
                       <div class="list-group-item">
-                          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].EmailAddress<br />
+                          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].Email<br />
                           <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].HomePhone<br />
                           <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].MobilePhone<br />
                        </div>
@@ -101,7 +101,7 @@
                         }
 
                           <div class="list-group-item">
-                              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].EmailAddress<br />
+                              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[ i ].Email<br />
                               <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].HomePhone<br />
                               <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].MobilePhone<br />
                           </div>
@@ -128,7 +128,7 @@
                     }
 
                       <div class="list-group-item">
-                          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].EmailAddress<br />
+                          <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[ i ].Email<br />
                           <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].HomePhone<br />
                           <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>&nbsp;&nbsp;@Model.ContactList[i].MobilePhone<br />
                       </div>

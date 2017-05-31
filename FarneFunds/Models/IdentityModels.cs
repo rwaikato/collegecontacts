@@ -21,6 +21,9 @@ namespace FarneFunds.Models
         public List<CampaignDetails> CampaignList { get; set; }
         public List<ContactDetails> ContactList { get; set; }
         public List<DonationDetails> DontaionList { get; set; }
+        public int ContactCount { get; set; }
+        public int CampaignCount { get; set; }
+        public decimal DonationCount { get; set; }
 
         public HomePageDetails()
         {
