@@ -82,15 +82,19 @@ namespace FarneFunds.Models
 		public string EmailAddress { get; set; }
 
 		[StringLength( 250, ErrorMessage = "Max 250 characters." )]
+		[DisplayName("PO/Street")]
 		public string Street { get; set; }
 
 		[StringLength( 150, ErrorMessage = "Max 150 characters." )]
+		[DisplayName("RD")]
 		public string Town { get; set; }
 
 		[StringLength( 150, ErrorMessage = "Max 150 characters." )]
+		[DisplayName("Suburb")]
 		public string City { get; set; }
 
 		[StringLength( 150, ErrorMessage = "Max 150 characters." )]
+		[DisplayName("City")]
 		public string Province { get; set; }
 
 		[StringLength( 150, ErrorMessage = "Max 150 characters." )]

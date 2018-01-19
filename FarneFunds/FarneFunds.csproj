@@ -513,6 +513,7 @@
     <Content Include="Views\Donation\ExportCampaignDonations.cshtml" />
     <Content Include="Views\Contacts\Audit.cshtml" />
     <Content Include="Views\Contacts\UploadNewContacts.cshtml" />
+    <Content Include="Views\Home\UploadAddressFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

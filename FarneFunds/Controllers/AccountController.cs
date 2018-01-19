@@ -408,59 +408,5 @@ namespace FarneFunds.Controllers
             }
         }
         #endregion
-
-        [HttpPost]
-        public ActionResult UploadFile( )
-        {
-            //open file
-            if ( Request.Files.Count == 1 )
-            {
-                //get file
-                var postedFile = Request.Files[ 0 ];
-
-                if ( postedFile.ContentLength > 0 )
-                {
-                    //read data from input stream
-                    using ( var csvReader = new System.IO.StreamReader( postedFile.InputStream ) )
-                    {
-                        string inputLine = "";
-
-                        //read each line
-                        while ( ( inputLine = csvReader.ReadLine( ) ) != null )
-                        {
-                            //get lines values
-                            string[ ] values = inputLine.Split( new char[ ] { ',' } );
-
-                            if ( !string.IsNullOrWhiteSpace( values[ 0 ] ) )
-                            {
-                                int contactId = 0;
-                                int.TryParse( values[ 0 ], out contactId );
-
-                                if ( contactId != 0 )
-                                {
-                                    var contact = Dal.Contacts.Where( c => c.Id == contactId ).FirstOrDefault( );
-
-                                    if ( contact != null )
-                                    {
-                                        contact.Street = values[ 2 ].Trim( );
-                                        contact.Town = values[ 3 ].Trim( );
-                                        contact.City = values[ 4 ].Trim( );
-                                        contact.Province = values[ 5 ].Trim( );
-                                        contact.ZipCode = values[ 6 ].Trim( );
-                                        contact.Country = values[ 7 ].Trim( );
-
-                                        Dal.SaveChanges( );
-                                    }
-                                }
-                            }
-                        }
-
-                        csvReader.Close( );
-                    }
-                }
-            }
-
-            return RedirectToAction( "Manage", new { fileUploaded = true } );
-        }
     }
 }
